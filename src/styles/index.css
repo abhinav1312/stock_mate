@@ -1,0 +1,53 @@
+*{
+    margin: 0; padding: 0; box-sizing: border-box;
+    
+}
+
+h1,
+h2,
+h3,
+h4,
+p{
+    letter-spacing: .1rem ;
+}
+
+html{
+    font-size: 62.5%;
+}
+
+header{
+    padding: 2rem 4rem;
+}
+
+aside{
+    padding: 4rem 0;
+}
+
+.active{
+    color: #FF0096
+}
+
+.card-collection{
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+
+@tailwind base;
+
+@layer base {
+    h1 {
+        @apply text-5xl;
+    }
+    h2 {
+        @apply text-3xl;
+    }
+    h3 {
+        @apply text-2xl;
+    }
+}
+  
+
+@tailwind components;
+@tailwind utilities;
