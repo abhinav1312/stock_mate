@@ -6,17 +6,15 @@ import { doc, getDoc, setDoc } from 'firebase/firestore';
 import AlertContext from '../alert/AlertContext';
 
 const AuthState = (props) => {
-  const showAlert = useContext(AlertContext).showAlert; // alerts when some process occurs
+  const {showAlert} = useContext(AlertContext); // alerts when some process occurs
   const [loggedIn, setLoggedIn] = useState(false); // state to check whether user is logged in
-  const [userId, setUserId] = useState(null); // set user id when user is logged in
+  // const [userId, setUserId] = useState(null); // set user id when user is logged in
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
-        setUserId(user.uid);
         setLoggedIn(true);
       } else {
-        setUserId(null);
         setLoggedIn(false);
       }
     });
@@ -26,7 +24,7 @@ const AuthState = (props) => {
   // handle sign in
   const handleSignIn = async () => {
     try {
-      const { user } = await signInWithPopup(auth, provider); // sign in popup on buttonclick
+      const { user } = await signInWithPopup(auth, provider); // sign in on buttonclick
       const userDocRef = doc(db, 'users', user.uid); // check if user exists in database
       const snapshot = await getDoc(userDocRef);
 
@@ -41,6 +39,7 @@ const AuthState = (props) => {
       showAlert("success", "Successfully logged in.")
     } catch (error) {
       showAlert('error','Some error occurred while signing in. Please try again.');
+      console.log(error)
     }
   };
 
@@ -49,15 +48,10 @@ const AuthState = (props) => {
     try{
       await auth.signOut();
       setLoggedIn(false);
-      setUserId(null);
     }catch (error) {
       showAlert('error','Some error occurred while signing out. Please try again.');
     }
   };
-
-  
-
-  console.log(userId, loggedIn)
 
   return (
     <>
