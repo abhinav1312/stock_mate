@@ -1,4 +1,4 @@
-import { addDoc, collection, doc, getDoc } from "firebase/firestore"
+import { addDoc, collection, doc, getDoc, setDoc } from "firebase/firestore"
 import { db } from "../../firebase";
 
 export const findProductInProductInfo = async (barcode) => {
@@ -16,9 +16,10 @@ export const findProductInProductInfo = async (barcode) => {
 }
 
 export const addProductInProductInfo = async (productObj) => {
-    const collectionRef = collection(db, 'product_info');
+    console.log("ProductOBJ: ", productObj)
+    const productDocRef = doc(db, 'product_info', productObj.barcode);
     try{
-        await addDoc(collectionRef, productObj);
+        await setDoc(productDocRef, productObj);
         return true;
     }
     catch(error){
