@@ -98,7 +98,7 @@ import React, { useState, useContext } from 'react';
 import Quagga from 'quagga';
 import AddProductContext from '../../context/addProduct/ProductContext';
 
-const BarcodeScanner = () => {
+const BarcodeScanner = ({getProductInfo}) => {
   const [canvas, setCanvas] = useState(false); // show or hide the div when barcode scanner opens or closes
   const [code, setCode] = useState(''); // set barcode on scanning
     const {findProductInProductInfo, productInfo, setProductInfo} = useContext(AddProductContext);  
@@ -134,13 +134,9 @@ const BarcodeScanner = () => {
   };
 
   // if barcode scanned, find it in database
-  const getProductInfo = async () => {
-    if(code !== ''){
-      const data = await findProductInProductInfo(code);
-      console.log("Data: ", data);
-    }
+  if(code !== ''){
+    getProductInfo(code);
   }
-  getProductInfo();
 
   return (
     <div>
@@ -150,7 +146,7 @@ const BarcodeScanner = () => {
       </div>
       <div id="scanner-container" className='absolute top-0' style={canvas ? {display: "block"} : {display: "none"} }>
       </div>
-      {code && <p>Scanned code: {code}</p>}
+      {code && <p> Scanned code: {code}</p>}
     </div>
   );
 }

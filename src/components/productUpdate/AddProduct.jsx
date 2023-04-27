@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import BarcodeScanner from './BarcodeScanner';
-import { useContext } from 'react';
-import AlertContext from '../../context/alert/AlertContext';
-import AddProductContext from '../../context/addProduct/ProductContext';
+// import { useContext } from 'react';
+// import AlertContext from '../../context/alert/AlertContext';
+// import AddProductContext from '../../context/addProduct/ProductContext';
+import {addProductInProductInfo, findProductInProductInfo} from './firebaseFunctions.js'
+import ProductInfoModal from './ProductInfoModal';
+import InventoryModal from './InventoryModal';
 
 const AddProduct = () => {
   // const showAlert = useContext(AlertContext).showAlert;
@@ -62,6 +65,52 @@ const AddProduct = () => {
   //   setShowProductInfoModal(false);
   //   setUserModal(true)
   // };
+
+  // find whether the scanned product is in our product_info collection or not
+
+  const [productDetail, setProductDetail] = useState({name:"", category: "", brand: "", quanity: 0, expiryDate: ""})
+  const [inventoryModal, setInventoryModal] = useState(false);
+  const [productInfoModal, setProductInfoModal] = useState(false);
+
+  const handleContentChange = (e) => {
+    const {name, value} = e.target;
+    setProductDetail(prev=> {
+      return {...prev, [name]:value}
+    })
+  }
+
+  const productInfoSubmit = async (e) => {
+    e.preventDefault();
+    const {name, category, brand} = productDetail;
+    const nameCopy = name.trim();
+    const categoryCopy = category.trim();
+    const brandCopy = brand.trim();
+    if(nameCopy === '' || categoryCopy === ''  || brandCopy === ''){
+      alert("Please fill all the required fields");
+      return;
+    }
+    else{
+      const added = await addProductInProductInfo({name: nameCopy, brand: brandCopy, category: categoryCopy});
+      if(added){
+        setProductInfoModal(false);
+        setInventoryModal(true);
+      }
+      else{
+        alert("Error while finding product from the barcode scan. Please try again");
+      }
+    }
+  }
+
+  const getProductInfo = async (barcode) => {
+    const data = await findProductInProductInfo(barcode);
+    if(data){
+      setInventoryModal(true);
+    }
+    else{
+      setProductInfoModal(true);
+    }
+    // (barcode);
+  }
 
   return (
     <>
@@ -187,7 +236,9 @@ const AddProduct = () => {
       </div>
       } */}
     <div>
-      <BarcodeScanner />
+      <BarcodeScanner getProductInfo={getProductInfo} />
+      {productInfoModal && <ProductInfoModal productInfoSubmit = {productInfoSubmit} handleContentChange={handleContentChange} name={productDetail.name} brand={productDetail.brand} category={productDetail.category} /> }
+      {inventoryModal && <InventoryModal />}
     </div>
     </>
   );

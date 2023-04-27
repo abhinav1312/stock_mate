@@ -5,8 +5,7 @@ import AddProductContext from "./ProductContext";
 import AlertContext from "../alert/AlertContext";
 
 const AddProductState = (props) => {
-    const alertContext = useContext(AlertContext);
-    const showAlert = alertContext.showAlert;
+    const {showAlert} = useContext(AlertContext);
     const [productInfo, setProductInfo] = useState({
         name:"",
         category: "",
