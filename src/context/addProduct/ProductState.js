@@ -23,8 +23,7 @@ const AddProductState = (props) => {
       }
       try{
           const docRef = doc(collection(db, "product_info"), barcode);
-
-          //check prpduct exists
+          //check product exists
           const snapshot = await getDoc(docRef);
           if(snapshot.exists()){
               return ({data: snapshot.data(), present: true})

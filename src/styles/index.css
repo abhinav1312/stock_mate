@@ -16,7 +16,7 @@ html{
 }
 
 section{
-    @apply p-16 md:pl-[28rem];
+    @apply py-8 px-16 md:pl-[28rem];
 }
 
 .active{
@@ -27,6 +27,15 @@ section{
     display: grid;
     gap: 1.5rem;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+/* barcode scanner unnecessary class removal  */
+#scanner-container>.drawingBuffer{
+    display: none;
+}
+
+#scanner-container>video{
+    @apply w-3/5
 }
 
 
