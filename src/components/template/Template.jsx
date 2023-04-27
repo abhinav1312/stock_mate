@@ -1,21 +1,17 @@
 import React from 'react'
-import Header from './Header'
+import Header2 from './Header2'
 import Aside from './Aside'
+import { Outlet } from 'react-router-dom'
 
 const Template = (props) => {
 
   return (
     <>
-      <Header />
-      <div className="pt-28 bg-bgColor min-h-screen">
-        <div className="flex-1">
-          <Aside /> 
-        </div>
-        <main className='p-16 md:pl-[28rem] h-full'>
-          {props.children}
-        </main>
-      </div>
-
+      <Header2 />
+      {/* <div className="grid grid-cols-[1fr_1fr]"> */}
+        <Aside />
+        <Outlet />
+      {/* </div> */}
     </>
   )
 }

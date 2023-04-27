@@ -1,13 +1,18 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import LandingPage from "./components/landingPage/LandingPage";
-import ProductUpdate from "./components/productUpdate/ProductUpdate";
+import IndexPage from "./components/indexPage/IndexPage";
 import Inventory from "./components/inventory/Inventory";
 import Dashboard from "./components/dashboard/Dashboard";
-import AddProductState from "./context/addProduct/AddProductState";
+import ProductState from "./context/addProduct/ProductState";
 import { useContext } from "react";
 import AlertContext from "./context/alert/AlertContext";
 import AlertBox from "./components/alert/AlertBox";
 import AuthState from "./context/auth/AuthState";
+import Template from "./components/template/Template";
+import Header from "./components/template/Header";
+import Template2 from "./components/template/Template2";
+import AddProduct from "./components/productUpdate/AddProduct";
+import SellProduct from "./components/productUpdate/SellProduct";
+import ViewDetail from "./components/productUpdate/ViewDetail";
 
 function App() {
   const alertContext = useContext(AlertContext);
@@ -20,9 +25,18 @@ function App() {
     <AuthState>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element = {<LandingPage />} />
-          <Route path="/hero" element = {<Dashboard />} />
-          <Route path="/hero/product_update" element = {<AddProductState><ProductUpdate /></AddProductState>} />
+          <Route path="/" element = {<Header />}>
+            <Route index element = {<IndexPage />} />
+          </Route>
+
+          <Route path="/hero" element = {<Template />} >
+            <Route index element={<Dashboard />} />
+            <Route path="product_update" element = {<ProductState>  <Template2 /> </ProductState>}> 
+              <Route path='add_product' element={<AddProduct />} />
+              <Route path='sell_product' element={<SellProduct />} />
+              <Route path='view_detail' element={<ViewDetail />} />
+            </Route>
+          </Route>
           <Route path="/hero/inventory" element = {<Inventory />} />
           <Route path="*" element = {<h1> Error 404 </h1>} />
         </Routes>

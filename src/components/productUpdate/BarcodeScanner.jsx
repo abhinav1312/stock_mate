@@ -1,16 +1,13 @@
 import React, { useContext } from 'react'; //
 import Quagga from 'quagga';
-import AddProductContext from '../../context/addProduct/AddProductContext';
+import AddProductContext from '../../context/addProduct/ProductContext';
 import AlertContext from '../../context/alert/AlertContext';
 
 let flag = false;
 
 const BarcodeScanner = ({setProductInfoModal, setUserModal}) => {
-  const showAlert = useContext(AlertContext).showAlert;
-  const addProductContext = useContext(AddProductContext);
-  const findProductInProductInfo = addProductContext.findProductInProductInfo;
-  const productInfo = addProductContext.productInfo;
-  const setProductInfo = addProductContext.setProductInfo;
+  const {showAlert} = useContext(AlertContext);
+  const {findProductInProductInfo, productInfo, setProductInfo} = useContext(AddProductContext);  
 
   async function startScanner() {
     const codeFound = await new Promise((resolve, reject) => {
@@ -68,7 +65,7 @@ const BarcodeScanner = ({setProductInfoModal, setUserModal}) => {
     setUserModal(true);
   }
 
-  console.log(productInfo)
+  // console.log(productInfo)
   return (
     <>
       <div className="w-full flex justify-center gap-24">
@@ -86,7 +83,6 @@ const BarcodeScanner = ({setProductInfoModal, setUserModal}) => {
         </button>
       </div>
       <div id="barcode-scanner"></div>
-
     </> 
   );
 };

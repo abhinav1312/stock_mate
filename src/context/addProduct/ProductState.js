@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 import { db } from "../../firebase"
 import { collection, doc, getDoc, setDoc } from "firebase/firestore"
-import AddProductContext from "./AddProductContext";
+import AddProductContext from "./ProductContext";
 import AlertContext from "../alert/AlertContext";
 
 const AddProductState = (props) => {

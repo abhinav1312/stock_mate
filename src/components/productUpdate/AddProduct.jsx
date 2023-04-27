@@ -2,70 +2,70 @@ import React, { useState } from 'react';
 import BarcodeScanner from './BarcodeScanner';
 import { useContext } from 'react';
 import AlertContext from '../../context/alert/AlertContext';
-import AddProductContext from '../../context/addProduct/AddProductContext';
+import AddProductContext from '../../context/addProduct/ProductContext';
 
 const AddProduct = () => {
-  const showAlert = useContext(AlertContext).showAlert;
-  const addProductContext = useContext(AddProductContext);
-  const addProductToProductInfo = addProductContext.addProductToProductInfo;
-  const setProductInfo = addProductContext.setProductInfo;
-  const productInfo = addProductContext.productInfo;
-  const [showProductInfoModal, setShowProductInfoModal] = useState(false);
-  const [userModal, setUserModal] = useState(false);
+  // const showAlert = useContext(AlertContext).showAlert;
+  // const addProductContext = useContext(AddProductContext);
+  // const addProductToProductInfo = addProductContext.addProductToProductInfo;
+  // const setProductInfo = addProductContext.setProductInfo;
+  // const productInfo = addProductContext.productInfo;
+  // const [showProductInfoModal, setShowProductInfoModal] = useState(false);
+  // const [userModal, setUserModal] = useState(false);
 
-  const [formContent, setFormContent] = useState({
-    productName: '',
-    productBrand: '',
-    productCategory: '',
-  });
+  // const [formContent, setFormContent] = useState({
+  //   productName: '',
+  //   productBrand: '',
+  //   productCategory: '',
+  // });
 
-  const handleFormContentChange = (e) => {
-    const { name, value } = e.target;
-    setFormContent((prev) => {
-      return {
-        ...prev,
-        [name]: value,
-      };
-    });
-  };
+  // const handleFormContentChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setFormContent((prev) => {
+  //     return {
+  //       ...prev,
+  //       [name]: value,
+  //     };
+  //   });
+  // };
 
-  const handleUserInputChange = (e) =>{
-    const { name, value } = e.target;
-    setProductInfo(prev=>{
-      return {
-        ...prev,
-        [name]: value
-      }
+  // const handleUserInputChange = (e) =>{
+  //   const { name, value } = e.target;
+  //   setProductInfo(prev=>{
+  //     return {
+  //       ...prev,
+  //       [name]: value
+  //     }
 
-    })
-  }
+  //   })
+  // }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const name = formContent.productName.trim().toLowerCase();
-    const category = formContent.productCategory.trim().toLowerCase();
-    const brand = formContent.productBrand.trim().toLowerCase();
-    if (name === '' || category === '' || brand === '') {
-      showAlert('warning', 'Please full all the details');
-      return;
-    }
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   const name = formContent.productName.trim().toLowerCase();
+  //   const category = formContent.productCategory.trim().toLowerCase();
+  //   const brand = formContent.productBrand.trim().toLowerCase();
+  //   if (name === '' || category === '' || brand === '') {
+  //     showAlert('warning', 'Please full all the details');
+  //     return;
+  //   }
 
-    setProductInfo((prev) => {
-      return { ...prev, name, category, brand };
-    });
+  //   setProductInfo((prev) => {
+  //     return { ...prev, name, category, brand };
+  //   });
 
-    try {
-      await addProductToProductInfo({ name, category, brand });
-    } catch (error) {
-      showAlert('warning', 'Error while adding product, please try again');
-    }
-    setShowProductInfoModal(false);
-    setUserModal(true)
-  };
+  //   try {
+  //     await addProductToProductInfo({ name, category, brand });
+  //   } catch (error) {
+  //     showAlert('warning', 'Error while adding product, please try again');
+  //   }
+  //   setShowProductInfoModal(false);
+  //   setUserModal(true)
+  // };
 
   return (
     <>
-      <div className="add-product py-24">
+      {/* <div className="add-product py-24">
         <BarcodeScanner setProductInfoModal={setShowProductInfoModal} setUserModal={setUserModal} />
       </div>
 
@@ -185,7 +185,10 @@ const AddProduct = () => {
           </form>
         </div>
       </div>
-      }
+      } */}
+    <div>
+      <BarcodeScanner />
+    </div>
     </>
   );
 };

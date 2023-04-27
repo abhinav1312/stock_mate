@@ -2,7 +2,7 @@ import React from 'react';
 import BrandLogo from '../../assets/images/BrandLogo.png';
 import { NavLink, Outlet } from 'react-router-dom';
 
-const Header = (props) => {
+const Header2 = (props) => {
   return (
     <>
       <header className="w-full py-6 px-16 shadow-lg">
@@ -14,9 +14,9 @@ const Header = (props) => {
             />
           </NavLink>
       </header>
-      <Outlet />
+      
     </>
   );
 };
 
-export default Header;
+export default Header2;

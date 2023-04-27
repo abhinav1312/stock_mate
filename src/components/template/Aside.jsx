@@ -17,7 +17,7 @@ const Aside = () => {
   return (
     <>
       <button
-        className=" fixed z-10 top-8 right-16 md:hidden"
+        className="fixed z-10 top-8 right-16 md:hidden"
         onClick={handleClick}
       >
         <svg
@@ -46,7 +46,9 @@ const Aside = () => {
          fixed 
          h-full 
          leading-loose 
-         font-semibold"
+         font-semibold
+         pt-16"
+         
          style = {{transition: ".5s ease"}}
         ref={asideRef}
       >
