@@ -47,16 +47,14 @@ const AddProduct = () => {
       if(data){
         console.log(data);
         const{productName: name, barcode, productBrand:brand, productCategory: category } = data;
-        // handleContentChange(ev);
         setProductDetail(prev=>{return{...prev, name, barcode, brand, category}});
         setInventoryModal(true);
       }
       else{
         setProductDetail(prev=> {return{...prev, barcode: barcode}})
-        // handleContentChange(ev);
         setProductInfoModal(true);
       }
-    }catch(error){
+  }catch(error){
       alert("Some error occured while getting product details. \n Please try again");
     }
   }

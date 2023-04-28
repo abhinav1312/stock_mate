@@ -37,50 +37,51 @@ const Aside = () => {
       </button>
 
       <aside
-        className="bg-blue
-         text-white 
+        className="
+         text-white bg-green-500 
          w-full
          translate-x-full
          md:translate-x-0
-         md:w-96 
+         md:w-52 shrink-0
          fixed 
          h-full 
          leading-loose 
          font-semibold
          pt-16"
+
          
          style = {{transition: ".5s ease"}}
         ref={asideRef}
       >
-        <nav className="w-full">
+        <nav>
           <ul>
-            <li className="pl-20 hover:bg-hoverBlue">
+            <li className="pl-8 hover:bg-green-700">
               <NavLink to={'/hero'} end>
-                {' '}
-                <h2> Dashboard </h2>{' '}
+                
+                <h2> Dashboard </h2>
               </NavLink>
-            </li>{' '}
+            </li>
             <br />
-            <li className="pl-20 hover:bg-hoverBlue">
+            <li className="pl-8 hover:bg-green-700">
               <NavLink to={'/hero/product_update'}>
-                {' '}
-                <h2> Add product </h2>{' '}
+                
+                <h2> Add product </h2>
               </NavLink>
-            </li>{' '}
+            </li>
             <br />
-            <li className="pl-20 hover:bg-hoverBlue">
+            <li className="pl-8 hover:bg-green-700">
               <NavLink to={'/hero/inventory'}>
-                {' '}
-                <h2> See inventory</h2>{' '}
+                
+                <h2> See inventory</h2>
               </NavLink>
-            </li>{' '}
+            </li>
             <br />
-            <li className="pl-20 hover:bg-hoverBlue">
+            <li className="pl-8 hover:bg-green-700">
               <NavLink to={'/'}>
-                {' '}
-                <h2> Logout </h2>{' '}
-              </NavLink>{' '}
-            </li>{' '}
+                
+                <h2> Logout </h2>
+              </NavLink>
+            </li>
             <br />
           </ul>
         </nav>

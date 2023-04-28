@@ -19,10 +19,9 @@ const LineChart = () => {
     // setData()
   return (
     <>
-    <div className='w-full md:h-[25rem] md:w-[50rem]' >
+    <div className='w-full md:h-[12.5rem] md:w-[25rem]' >
      <Line data={data}/>
     </div>
-    <button onClick={handleClick}>Do not click</button>
     </>
   )
 }

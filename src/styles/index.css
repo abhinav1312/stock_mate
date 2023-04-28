@@ -1,6 +1,5 @@
 *{
-    margin: 0; padding: 0; box-sizing: border-box;
-    
+    margin: 0; padding: 0; box-sizing: border-box; 
 }
 
 h1,
@@ -11,12 +10,8 @@ p{
     letter-spacing: .1rem ;
 }
 
-html{
-    font-size: 62.5%;
-}
-
 section{
-    @apply py-8 px-16 md:pl-[28rem];
+    @apply py-8 px-16 md:pl-[16rem];
 }
 
 .active{
@@ -42,15 +37,6 @@ section{
 @tailwind base;
 
 @layer base {
-    h1 {
-        @apply text-5xl;
-    }
-    h2 {
-        @apply text-3xl;
-    }
-    h3 {
-        @apply text-2xl;
-    }
 }
   
 

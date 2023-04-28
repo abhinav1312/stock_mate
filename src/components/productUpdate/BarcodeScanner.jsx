@@ -48,8 +48,8 @@ const BarcodeScanner = ({getProductInfo}) => {
   return (
     <div>
       <div className='flex justify-center gap-16'>
-        <button onClick={startScan} className='px-16 py-8 border rounded-xl text-2xl font-medium hover:bg-darkGrey'>Scan Barcode</button>
-        <button onClick={stopScan} className='px-16 py-8 border rounded-xl text-2xl font-medium hover:bg-darkGrey'>Scan Barcode</button>
+        <button onClick={startScan} className='px-12 py-6 border rounded-xl text-2xl font-medium hover:bg-darkGrey'>Scan Barcode</button>
+        <button onClick={stopScan} className='px-12 py-6 border rounded-xl text-2xl font-medium hover:bg-darkGrey'>Scan Barcode</button>
       </div>
       <div id="scanner-container" className='absolute top-0' style={canvas ? {display: "block"} : {display: "none"} }>
       </div>

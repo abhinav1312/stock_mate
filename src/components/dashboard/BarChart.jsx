@@ -17,11 +17,9 @@ const BarChart = () => {
     // setData()
   return (
     <>
-    <div className='w-full md:h-[25rem] md:w-[50rem]'>
+    <div className='w-full md:h-[12.5rem] md:w-[25rem]'>
       <Bar data={data} options={{responsive: true}}/>
     </div>
-
-    <button onClick={handleClick}>Do not click</button>
     </>
   )
 }

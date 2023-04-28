@@ -8,10 +8,9 @@ const Template = (props) => {
   return (
     <>
       <Header2 />
-      {/* <div className="grid grid-cols-[1fr_1fr]"> */}
-        <Aside />
-        <Outlet />
-      {/* </div> */}
+      <Aside />
+      <Outlet />
+      
     </>
   )
 }

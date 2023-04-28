@@ -18,13 +18,12 @@ const PieChart = () => {
     const handleClick = () =>{
       setData()
     }
-    // setData()
   return (
     <>
-      <div className='w-full md:h-[50rem] md:w-[50rem]'>
+      <div className='w-full md:w-[30rem]'>
           <Pie data={data} options={{responsive: true}}/>
+          <button className="hidden" onClick={handleClick}></button>
       </div>
-      <button onClick={handleClick}>Do not click</button>
     </>
   )
 }

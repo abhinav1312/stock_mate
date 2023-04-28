@@ -6,9 +6,9 @@ const Template2 = () => {
     <>
     <section>
     <div className="flex justify-between w-full">
-      <NavLink to='/hero/product_update/add_product' className='py-12 px-24 bg-blue text-2xl shadow-lg font-semibold hover:bg-darkGrey'>Add Product</NavLink>
-      <NavLink to='/hero/product_update/sell_product' className='py-12 px-24 bg-blue text-2xl shadow-lg font-semibold hover:bg-darkGrey'>Sell Product</NavLink>
-      <NavLink to='/hero/product_update/view_detail' className='py-12 px-24 bg-blue text-2xl shadow-lg font-semibold hover:bg-darkGrey'>View Detail</NavLink>
+      <NavLink to='/hero/product_update/add_product' className='shadow-md rounded-md py-6 px-12 text-2xl bg-green-500 hover:bg-green-400'>Add Product</NavLink>
+      <NavLink to='/hero/product_update/sell_product' className='shadow-md rounded-md py-6 px-12 text-2xl bg-green-500 hover:bg-green-400 '>Sell Product</NavLink>
+      <NavLink to='/hero/product_update/view_detail' className='shadow-md rounded-md py-6 px-12 text-2xl bg-green-500 hover:bg-green-400'>View Detail</NavLink>
     </div>
    </section>
    <section>
