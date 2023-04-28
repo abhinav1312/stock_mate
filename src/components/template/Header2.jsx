@@ -5,7 +5,7 @@ import { NavLink, Outlet } from 'react-router-dom';
 const Header2 = (props) => {
   return (
     <>
-      <header className="py-6 px-16 shadow-lg w-full">
+      <header className="py-6 px-16 fixed z-10 bg-white shadow-lg w-full">
           <NavLink to="/">
             <img
               src={BrandLogo}

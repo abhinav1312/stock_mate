@@ -1,7 +1,9 @@
-import React, { useRef } from 'react';
+import React, { useContext, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
+import AuthContext from '../../context/auth/AuthContext';
 
 const Aside = () => {
+  const {handleSignOut} = useContext(AuthContext);
   const asideRef = useRef();
 
   const handleClick = () => {
@@ -38,7 +40,7 @@ const Aside = () => {
 
       <aside
         className="
-         text-white bg-green-500 
+         text-white bg-green-500 pt-24
          w-full
          translate-x-full
          md:translate-x-0
@@ -46,11 +48,7 @@ const Aside = () => {
          fixed 
          h-full 
          leading-loose 
-         font-semibold
-         pt-16"
-
-         
-         style = {{transition: ".5s ease"}}
+         font-semibold transition-all"
         ref={asideRef}
       >
         <nav>
@@ -76,12 +74,9 @@ const Aside = () => {
               </NavLink>
             </li>
             <br />
-            <li className="pl-8 hover:bg-green-700">
-              <NavLink to={'/'}>
-                
-                <h2> Logout </h2>
-              </NavLink>
-            </li>
+            <button onClick={handleSignOut} className="pr-20 hover:bg-green-700 w-full">
+              Sign out
+            </button>
             <br />
           </ul>
         </nav>

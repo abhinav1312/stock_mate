@@ -7,8 +7,10 @@ const LandingPage = () => {
   const loggedIn = useContext(AuthContext).loggedIn
   return (
     <>
-     <section>
+     <section className='pl-16'>
       Landing Page
+
+      <button onClick={handleSignIn}> Sign in </button>
      </section>
     </>
   )

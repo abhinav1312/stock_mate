@@ -9,7 +9,9 @@ const Template = (props) => {
     <>
       <Header2 />
       <Aside />
-      <Outlet />
+      <div className='pr-8 pl-56 pb-8 pt-24'>
+        <Outlet />
+      </div>
       
     </>
   )

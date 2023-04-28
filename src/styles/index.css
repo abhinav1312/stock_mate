@@ -11,7 +11,7 @@ p{
 }
 
 section{
-    @apply py-8 px-16 md:pl-[16rem];
+    @apply py-6
 }
 
 .active{
@@ -31,6 +31,12 @@ section{
 
 #scanner-container>video{
     @apply w-3/5
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: .5rem;
 }
 
 

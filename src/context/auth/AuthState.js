@@ -4,6 +4,7 @@ import { auth, provider, db } from '../../firebase';
 import { signInWithPopup } from 'firebase/auth';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import AlertContext from '../alert/AlertContext';
+import { Navigate } from 'react-router-dom';
 
 const AuthState = (props) => {
   const {showAlert} = useContext(AlertContext); // alerts when some process occurs
@@ -16,6 +17,7 @@ const AuthState = (props) => {
         setLoggedIn(true);
       } else {
         setLoggedIn(false);
+        <Navigate to='/'/>
       }
     });
     return() => unsubscribe();
@@ -45,13 +47,17 @@ const AuthState = (props) => {
 
   // handle sign out
   const handleSignOut = async () => {
+    console.log("Called logout");
     try{
       await auth.signOut();
       setLoggedIn(false);
     }catch (error) {
       showAlert('error','Some error occurred while signing out. Please try again.');
     }
+    console.log("Auth insidee: ", auth);
   };
+
+  console.log("Auth: ", auth);
 
   return (
     <>

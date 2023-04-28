@@ -3,6 +3,7 @@ import BarcodeScanner from './BarcodeScanner';
 import {addProductInProductInfo, findProductInProductInfo} from './firebaseFunctions.js'
 import ProductInfoModal from './ProductInfoModal';
 import InventoryModal from './InventoryModal';
+import Table from './Table';
 
 const AddProduct = () => {
 
@@ -65,6 +66,7 @@ const AddProduct = () => {
       <BarcodeScanner getProductInfo={getProductInfo} />
       {productInfoModal && <ProductInfoModal productInfoSubmit = {productInfoSubmit} handleContentChange={handleContentChange} name={productDetail.name} brand={productDetail.brand} category={productDetail.category} /> }
       {inventoryModal && <InventoryModal inventoryInfoSubmit = {inventoryInfoSubmit} handleContentChange={handleContentChange} name={productDetail.name} brand={productDetail.brand} category={productDetail.category} expiryDate={productDetail.expiryDate} quantity={productDetail.quantity} />}
+      <Table />
     </div>
     </>
   );

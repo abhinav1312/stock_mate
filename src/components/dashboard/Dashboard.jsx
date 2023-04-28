@@ -22,7 +22,6 @@ const Dashboard = () => {
           <Card img={Expired} content="Expired items" data="23" />
           <Card img={Revenue} content="Revenue" data="165873" />
         </section>
-
       <section className="grid grid-cols-1 lg:grid-cols-2 gap-24">
         <div className="chart pie-chart lg:row-span-2">
           <PieChart />
