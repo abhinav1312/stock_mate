@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
 import BarcodeScanner from './BarcodeScanner';
-// import { useContext } from 'react';
-// import AlertContext from '../../context/alert/AlertContext';
-// import AddProductContext from '../../context/addProduct/ProductContext';
 import {addProductInProductInfo, findProductInProductInfo} from './firebaseFunctions.js'
 import ProductInfoModal from './ProductInfoModal';
 import InventoryModal from './InventoryModal';
@@ -45,15 +42,22 @@ const AddProduct = () => {
   }
 
   const getProductInfo = async (barcode) => {
-    const data = await findProductInProductInfo(barcode);
-    if(data){
-      const{name, barcode, brand, category} = data;
-      setProductDetail(prev=>{return{...prev, name, barcode, brand, category}});
-      setInventoryModal(true);
-    }
-    else{
-      setProductDetail(prev=> {return{...prev, barcode: barcode}})
-      setProductInfoModal(true);
+    try{
+      const data = await findProductInProductInfo(barcode);
+      if(data){
+        console.log(data);
+        const{productName: name, barcode, productBrand:brand, productCategory: category } = data;
+        // handleContentChange(ev);
+        setProductDetail(prev=>{return{...prev, name, barcode, brand, category}});
+        setInventoryModal(true);
+      }
+      else{
+        setProductDetail(prev=> {return{...prev, barcode: barcode}})
+        // handleContentChange(ev);
+        setProductInfoModal(true);
+      }
+    }catch(error){
+      alert("Some error occured while getting product details. \n Please try again");
     }
   }
 
