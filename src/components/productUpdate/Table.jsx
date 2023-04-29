@@ -11,7 +11,7 @@ const Table = () => {
                 <th className='w-1/12'>Serial No.</th>
                 <th className='w-3/12'>Name</th>
                 <th className='w-2/12'>Brand</th>
-                <th className='w-2/12'>Category</th>
+                <th className='w-2/12'>Category world</th>
                 <th className='w-1/12'>Quantity</th>
                 <th className='w-2/12'>Expiry date</th>
                 <th className='w-1/12'>Bar code</th>

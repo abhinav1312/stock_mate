@@ -1,17 +1,8 @@
-export const addUser = () => {
-    return {
-        type: "ADD_USER"
-    }
-}
-
-export const addToDb = () => {
-    return {
-        type: "ADD_TO_DB"
-    }
-}
-
-export const addToInventory = () => {
-    return {
-        type: "ADD_TO_INVENTORY"
+export const addToDb = (productDetailObj) => {
+    return (dispatch) => {
+        dispatch({
+            type: "ADD_TO_DB",
+            payload: productDetailObj
+        })
     }
 }
