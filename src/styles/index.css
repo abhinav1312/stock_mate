@@ -30,13 +30,20 @@ section{
 }
 
 #scanner-container>video{
-    @apply w-3/5
+    @apply w-3/5;
 }
 
 td, th {
-    @apply border text-left p-2 whitespace-nowrap
+    @apply border text-left p-2 whitespace-nowrap;
 }
 
+.modalFormHeading{
+    @apply text-gray-400 pb-1 ml-1;
+}
+
+.modalFormInput{
+    @apply p-2 w-full text-xl focus:border-blue-400 rounded-md focus:outline-none border;
+}
 
 @tailwind base;
 
