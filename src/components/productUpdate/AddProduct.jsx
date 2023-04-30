@@ -4,8 +4,11 @@ import {addProductInProductInfo, findProductInProductInfo} from './firebaseFunct
 import ProductInfoModal from './ProductInfoModal';
 import InventoryModal from './InventoryModal';
 import Table from './Table';
+import { useDispatch } from 'react-redux';
+import {addProduct} from '../../redux/slice/addToDbSlice'
 
 const AddProduct = () => {
+  const dispatch = useDispatch();
 
   const [productDetail, setProductDetail] = useState({barcode: "", name:"", category: "", brand: "", quantity: 0, expiryDate: ""})
   const [inventoryModal, setInventoryModal] = useState(false);
@@ -18,8 +21,14 @@ const AddProduct = () => {
     })
   }
 
-  const inventoryInfoSubmit = () => {}
+  // barcode scanned and product found in database
+  // or after the product is added to database
+  const inventoryInfoSubmit = (e) => {
+    e.preventDefault();
+    dispatch(addProduct(productDetail))
+  }
 
+  // barcode scanned and product not found in database
   const productInfoSubmit = async (e) => {
     e.preventDefault();
     const {name, category, brand} = productDetail;
@@ -46,7 +55,6 @@ const AddProduct = () => {
     try{
       const data = await findProductInProductInfo(barcode);
       if(data){
-        console.log(data);
         const{productName: name, barcode, productBrand:brand, productCategory: category } = data;
         setProductDetail(prev=>{return{...prev, name, barcode, brand, category}});
         setInventoryModal(true);

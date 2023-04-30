@@ -3,14 +3,14 @@ import ReactDOM from 'react-dom/client';
 import './styles/index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import AlertState from './context/alert/AlertState';
-
+import {Provider} from 'react-redux'
+import store from './redux/index'
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <>
-    <AlertState>
+    <Provider store={store}>
       <App />
-    </AlertState>
+    </Provider>
   </>
 );
 

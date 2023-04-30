@@ -1,13 +1,11 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import AuthContext from './AuthContext';
 import { auth, provider, db } from '../../firebase';
 import { signInWithPopup } from 'firebase/auth';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
-import AlertContext from '../alert/AlertContext';
 import { Navigate } from 'react-router-dom';
 
 const AuthState = (props) => {
-  const {showAlert} = useContext(AlertContext); // alerts when some process occurs
   const [loggedIn, setLoggedIn] = useState(false); // state to check whether user is logged in
   // const [userId, setUserId] = useState(null); // set user id when user is logged in
 
@@ -38,9 +36,9 @@ const AuthState = (props) => {
         await setDoc(userDocRef, { name, email, createdAt });
       }
       setLoggedIn(true); // user logged in successfully
-      showAlert("success", "Successfully logged in.")
+      
     } catch (error) {
-      showAlert('error','Some error occurred while signing in. Please try again.');
+      alert("Error occured while signing in");
       console.log(error)
     }
   };
@@ -52,7 +50,7 @@ const AuthState = (props) => {
       await auth.signOut();
       setLoggedIn(false);
     }catch (error) {
-      showAlert('error','Some error occurred while signing out. Please try again.');
+      alert('error','Some error occurred while signing out. Please try again.');
     }
     console.log("Auth insidee: ", auth);
   };
