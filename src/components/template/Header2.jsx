@@ -1,6 +1,6 @@
 import React from 'react';
 import BrandLogo from '../../assets/images/BrandLogo.png';
-import { NavLink, Outlet } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 const Header2 = (props) => {
   return (

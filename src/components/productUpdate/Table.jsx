@@ -1,6 +1,12 @@
 import React from 'react'
+import { useDispatch } from 'react-redux'
+import { sendProductsToDb } from '../../redux/slice/addToDbSlice';
 
 const Table = () => {
+	const dispatch = useDispatch();
+    const addToDb = () => {
+			dispatch(sendProductsToDb());
+    }
   return (
     <section>
       <h1 className='text-3xl'>Recently Added Products</h1>
@@ -76,6 +82,9 @@ const Table = () => {
         </tbody>
       </table>
       </div>
+			<div className="flex justify-end">
+      	<button onClick={addToDb} className='px-6 py-4 bg-green-600 hover:bg-green-700 transition-all rounded-md text-white font-medium mt-4'>Add products</button>
+			</div>
     </section>
   )
 }

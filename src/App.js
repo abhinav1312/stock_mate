@@ -2,7 +2,6 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import IndexPage from "./components/indexPage/IndexPage";
 import Inventory from "./components/inventory/Inventory";
 import Dashboard from "./components/dashboard/Dashboard";
-import AuthState from "./context/auth/AuthState";
 import Template from "./components/template/Template";
 import Header from "./components/template/Header";
 import Template2 from "./components/template/Template2";
@@ -13,7 +12,7 @@ import ViewDetail from "./components/productUpdate/ViewDetail";
 function App() {
   return (
     <>
-    <AuthState>
+    {/* <AuthState> */}
       <BrowserRouter>
         <Routes>
           <Route path="/" element = {<Header />}>
@@ -32,7 +31,7 @@ function App() {
           <Route path="*" element = {<h1> Error 404 </h1>} />
         </Routes>
       </BrowserRouter>
-      </AuthState>
+      {/* </AuthState> */}
     </>
   );
 }

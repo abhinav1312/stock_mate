@@ -3,11 +3,11 @@ import AuthContext from './AuthContext';
 import { auth, provider, db } from '../../firebase';
 import { signInWithPopup } from 'firebase/auth';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
-import { Navigate } from 'react-router-dom';
+
+
 
 const AuthState = (props) => {
   const [loggedIn, setLoggedIn] = useState(false); // state to check whether user is logged in
-  // const [userId, setUserId] = useState(null); // set user id when user is logged in
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -15,7 +15,6 @@ const AuthState = (props) => {
         setLoggedIn(true);
       } else {
         setLoggedIn(false);
-        <Navigate to='/'/>
       }
     });
     return() => unsubscribe();
@@ -45,17 +44,14 @@ const AuthState = (props) => {
 
   // handle sign out
   const handleSignOut = async () => {
-    console.log("Called logout");
+    
     try{
       await auth.signOut();
-      setLoggedIn(false);
+      setLoggedIn(false);  
     }catch (error) {
       alert('error','Some error occurred while signing out. Please try again.');
     }
-    console.log("Auth insidee: ", auth);
   };
-
-  console.log("Auth: ", auth);
 
   return (
     <>
