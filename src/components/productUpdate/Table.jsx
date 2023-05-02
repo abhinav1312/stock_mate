@@ -1,11 +1,12 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
-import { sendProductsToDb } from '../../redux/slice/addToDbSlice';
+import { useDispatch, useSelector } from 'react-redux'
+import { addProductToCurrentInventory, sendProductsToDb } from '../../redux/slice/addToDbSlice';
 
 const Table = () => {
 	const dispatch = useDispatch();
+    const data = useSelector(state=> {return state.addToDb})
     const addToDb = () => {
-			dispatch(sendProductsToDb());
+        dispatch(addProductToCurrentInventory());
     }
   return (
     <section>

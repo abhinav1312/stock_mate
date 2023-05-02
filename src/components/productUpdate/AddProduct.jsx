@@ -10,7 +10,7 @@ import {addProduct} from '../../redux/slice/addToDbSlice'
 const AddProduct = () => {
   const dispatch = useDispatch();
 
-  const [productDetail, setProductDetail] = useState({barcode: "", name:"", category: "", brand: "", quantity: 0, expiryDate: ""})
+  const [productDetail, setProductDetail] = useState({name:"", category: "", brand: "", quantity: 0, expiryDate: ""})
   const [inventoryModal, setInventoryModal] = useState(false);
   const [productInfoModal, setProductInfoModal] = useState(false);
 
@@ -26,6 +26,7 @@ const AddProduct = () => {
   const inventoryInfoSubmit = (e) => {
     e.preventDefault();
     dispatch(addProduct(productDetail))
+    setInventoryModal(false);
   }
 
   // barcode scanned and product not found in database
@@ -40,7 +41,7 @@ const AddProduct = () => {
       return;
     }
     else{
-      const added = await addProductInProductInfo({barcode: productDetail.barcode, name: nameCopy, brand: brandCopy, category: categoryCopy});
+      const added = await addProductInProductInfo({name: nameCopy, brand: brandCopy, category: categoryCopy});
       if(added){
         setProductInfoModal(false);
         setInventoryModal(true);
@@ -51,16 +52,17 @@ const AddProduct = () => {
     }
   }
 
+  // find product on barcode scan
   const getProductInfo = async (barcode) => {
     try{
       const data = await findProductInProductInfo(barcode);
       if(data){
-        const{productName: name, barcode, productBrand:brand, productCategory: category } = data;
-        setProductDetail(prev=>{return{...prev, name, barcode, brand, category}});
+        const{productName: name, productBrand:brand, productCategory: category } = data;
+        setProductDetail(prev=>{return{...prev, name, brand, category}});
         setInventoryModal(true);
       }
       else{
-        setProductDetail(prev=> {return{...prev, barcode: barcode}})
+        setProductDetail(prev=> {return{...prev}})
         setProductInfoModal(true);
       }
   }catch(error){
