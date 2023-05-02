@@ -17,9 +17,10 @@ export const findProductInProductInfo = async (barcode) => {
 
 export const addProductInProductInfo = async (productObj) => {
     console.log("ProductOBJ: ", productObj)
-    const collectionRef = collection(db, 'product_info');
+    const {barcode} = productObj
+    const docRef = doc(db, 'product_info', barcode);
     try{
-        await addDoc(collectionRef, productObj);
+        await setDoc(docRef, productObj);
         return true;
     }
     catch(error){

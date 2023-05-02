@@ -6,11 +6,12 @@ import InventoryModal from './InventoryModal';
 import Table from './Table';
 import { useDispatch } from 'react-redux';
 import {addProduct} from '../../redux/slice/addToDbSlice'
+import { startCase } from 'lodash';
 
 const AddProduct = () => {
   const dispatch = useDispatch();
 
-  const [productDetail, setProductDetail] = useState({name:"", category: "", brand: "", quantity: 0, expiryDate: ""})
+  const [productDetail, setProductDetail] = useState({barcode: "", name:"", category: "", brand: "", quantity: 0, expiryDate: ""})
   const [inventoryModal, setInventoryModal] = useState(false);
   const [productInfoModal, setProductInfoModal] = useState(false);
 
@@ -25,23 +26,29 @@ const AddProduct = () => {
   // or after the product is added to database
   const inventoryInfoSubmit = (e) => {
     e.preventDefault();
-    dispatch(addProduct(productDetail))
+    const productDetailCopy = {
+      ...productDetail,
+      quantity: parseInt(productDetail.quantity)
+    }
+    dispatch(addProduct(productDetailCopy))
     setInventoryModal(false);
+    setProductDetail({barcode: "", name:"", category: "", brand: "", quantity: 0, expiryDate: ""});
   }
 
   // barcode scanned and product not found in database
   const productInfoSubmit = async (e) => {
     e.preventDefault();
     const {name, category, brand} = productDetail;
-    const nameCopy = name.trim();
-    const categoryCopy = category.trim();
-    const brandCopy = brand.trim();
+    const nameCopy =  startCase(name.trim());
+    const categoryCopy = startCase(category.trim());
+    const brandCopy = startCase(brand.trim());
     if(nameCopy === '' || categoryCopy === ''  || brandCopy === ''){
       alert("Please fill all the required fields");
       return;
     }
     else{
-      const added = await addProductInProductInfo({name: nameCopy, brand: brandCopy, category: categoryCopy});
+      setProductDetail(prev=>{return {...prev, name: nameCopy, brand: brandCopy, category: categoryCopy}});
+      const added = await addProductInProductInfo({barcode: productDetail.barcode, name: nameCopy, brand: brandCopy, category: categoryCopy});
       if(added){
         setProductInfoModal(false);
         setInventoryModal(true);
@@ -57,12 +64,12 @@ const AddProduct = () => {
     try{
       const data = await findProductInProductInfo(barcode);
       if(data){
-        const{productName: name, productBrand:brand, productCategory: category } = data;
-        setProductDetail(prev=>{return{...prev, name, brand, category}});
+        const{name, brand, category } = data;
+        setProductDetail(prev=>{return{...prev, barcode, name, brand, category}});
         setInventoryModal(true);
       }
       else{
-        setProductDetail(prev=> {return{...prev}})
+        setProductDetail(prev=>{return {...prev, barcode: barcode}});
         setProductInfoModal(true);
       }
   }catch(error){
