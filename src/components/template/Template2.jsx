@@ -11,9 +11,9 @@ const Template2 = () => {
       <NavLink to='/hero/product_update/view_detail' className='shadow-md rounded-md py-6 px-12 text-2xl bg-green-500 hover:bg-green-400'>View Detail</NavLink>
     </div>
    </section>
-   <section>
+   <div>
     <Outlet />
-   </section>
+   </div>
     </>
   )
 }

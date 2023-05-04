@@ -12,7 +12,7 @@ const Table = () => {
   };
   return (
     <section>
-      <h1 className="text-3xl">Recently Added Products</h1>
+      <h1 className="text-3xl mb-2">Recently Added Products</h1>
       <div className="overflow-auto">
         <table className="w-full border-collapse py-4">
           <thead>
