@@ -7,10 +7,12 @@ import Table from './Table';
 import { useDispatch } from 'react-redux';
 import {addProduct} from '../../redux/slice/addToDbSlice'
 import { startCase } from 'lodash';
+import QRCode from 'qrcode.react';
+import jsPDF from 'jspdf';
 
 const AddProduct = () => {
   const dispatch = useDispatch();
-
+  const [qrCodeText, setQRCodeText] = useState('');
   const [productDetail, setProductDetail] = useState({barcode: "", name:"", category: "", brand: "", quantity: 0, expiryDate: ""})
   const [inventoryModal, setInventoryModal] = useState(false);
   const [productInfoModal, setProductInfoModal] = useState(false);
@@ -30,7 +32,8 @@ const AddProduct = () => {
       ...productDetail,
       quantity: parseInt(productDetail.quantity)
     }
-    dispatch(addProduct(productDetailCopy))
+    dispatch(addProduct(productDetailCopy));
+
     setInventoryModal(false);
     setProductDetail({barcode: "", name:"", category: "", brand: "", quantity: 0, expiryDate: ""});
   }
@@ -84,6 +87,13 @@ const AddProduct = () => {
       {productInfoModal && <ProductInfoModal productInfoSubmit = {productInfoSubmit} handleContentChange={handleContentChange} name={productDetail.name} brand={productDetail.brand} category={productDetail.category} /> }
       {inventoryModal && <InventoryModal inventoryInfoSubmit = {inventoryInfoSubmit} handleContentChange={handleContentChange} name={productDetail.name} brand={productDetail.brand} category={productDetail.category} expiryDate={productDetail.expiryDate} quantity={productDetail.quantity} />}
       <Table />
+
+      <QRCode
+        id="qrCodeEl"
+        size={150}
+        value={productDetail}
+        className='hidden'
+      />
     </div>
     </>
   );

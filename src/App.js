@@ -9,12 +9,13 @@ import AddProduct from "./components/productUpdate/AddProduct";
 import SellProduct from "./components/productUpdate/SellProduct";
 import ViewDetail from "./components/productUpdate/ViewDetail";
 import QRgenerator from "./components/productUpdate/QRgenerator";
+import QRgenerator2 from "./components/productUpdate/QRGenerator2";
 
 function App() {
   return (
     <>
     {/* <AuthState> */}
-      {/* <BrowserRouter>
+      <BrowserRouter>
         <Routes>
           <Route path="/" element = {<Header />}>
             <Route index element = {<IndexPage />} />
@@ -31,10 +32,11 @@ function App() {
           <Route path="/hero/inventory" element = {<Inventory />} />
           <Route path="*" element = {<h1> Error 404 </h1>} />
         </Routes>
-      </BrowserRouter> */}
+      </BrowserRouter>
       {/* </AuthState> */}
 
-      <QRgenerator />
+      {/* <QRgenerator /> */}
+      {/* <QRgenerator2 /> */}
     </>
   );
 }
