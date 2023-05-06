@@ -1,12 +1,20 @@
 import React, { useContext } from 'react'
 import AuthContext from '../../context/auth/AuthContext'
 import {useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux';
+// import { login } from '../../redux/slice/authSlice';
+import { login, logout } from '../../redux/slice/authSlice.jsx';
 
-const LandingPage = () => {
+const IndexPage = () => {
   const navigate = useNavigate();
-  const handleSignIn = useContext(AuthContext).handleSignIn
+  const dispatch = useDispatch();
+  // const handleSignIn = useContext(AuthContext).handleSignIn
   // const handleSignOut = useContext(AuthContext).handleSignOut
   // const loggedIn = useContext(AuthContext).loggedIn
+
+  const handleSignIn = () => {
+    dispatch(login());
+  }
 
   const handleClick = () => {
     console.log("clicked")
@@ -25,4 +33,4 @@ const LandingPage = () => {
   )
 }
 
-export default LandingPage;
+export default IndexPage;

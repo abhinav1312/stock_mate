@@ -23,7 +23,9 @@ const AuthState = (props) => {
   // handle sign in
   const handleSignIn = async () => {
     try {
-      const { user } = await signInWithPopup(auth, provider); // sign in on buttonclick
+      const { user } = await signInWithPopup(auth, provider);
+      console.log("User: ", user.uid)
+      // sign in on buttonclick
       const userDocRef = doc(db, 'users', user.uid); // check if user exists in database
       const snapshot = await getDoc(userDocRef);
 

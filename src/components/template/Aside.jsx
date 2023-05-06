@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import AuthContext from '../../context/auth/AuthContext';
 
 const Aside = () => {
-  const {handleSignOut} = useContext(AuthContext);
+  // const {handleSignOut} = useContext(AuthContext);
   const asideRef = useRef();
 
   const handleClick = () => {
@@ -74,7 +74,7 @@ const Aside = () => {
               </NavLink>
             </li>
             <br />
-            <button onClick={handleSignOut} className="pr-20 hover:bg-green-700 w-full">
+            <button className="pr-20 hover:bg-green-700 w-full">
               Sign out
             </button>
             <br />

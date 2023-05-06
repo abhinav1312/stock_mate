@@ -1,6 +1,7 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
 import { db } from '../../firebase';
-import { addDoc, collection, doc, getDoc, getDocs, query, setDoc, where } from 'firebase/firestore';
+import {collection, doc, getDocs, query, setDoc, where } from 'firebase/firestore';
+import authSlice from './authSlice';
 
 const addToDbSlice = createSlice({
     name: 'addToDb',
@@ -16,7 +17,7 @@ const addToDbSlice = createSlice({
                 state.push(action.payload);
             }
         },
-        sendProductsToDb(action, {getState}){
+        sendProductsToDb({getState}){
             const st = getState();
             console.log("St: ", st);
         }
@@ -28,17 +29,19 @@ export const addProductToCurrentInventory = createAsyncThunk(
     'addToDb/addToFirebase',
     async (data, { getState }) => {
         const state = getState();
+        console.log("State: ", state);
+        // console.log("kejfwe", authSlice(state));
         const productList = state.addToDb;
         console.log("State: ", state.addToDb)
         const docRef = doc(db, 'current_inventory', "5634");    
         await setDoc(docRef, {});
-        const subcollectionRef = collection(db, 'current_inventory', "5634", 'products' );
+        // const subcollectionRef = collection(db, 'current_inventory', "5634", 'products' );
         const fullDate  = new Date();
-        const dateString = fullDate.getFullYear() + "-" + fullDate.getMonth() + "-" + fullDate.getDay();
+        // const dateString = fullDate.getFullYear() + "-" + fullDate.getMonth() + "-" + fullDate.getDay();
         productList.map(async product=>{
             try{
                 console.log("Product: ", product)
-                const {barcode, expiryDate} = product;
+                // const {barcode, expiryDate} = product;
                 const q = query(
                     collection(db, 'current_inventory', "5634", "products"),
                     where("category", "==", "Handwash")
