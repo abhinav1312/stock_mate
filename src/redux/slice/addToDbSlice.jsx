@@ -21,15 +21,20 @@ const addToDbSlice = createSlice({
             const st = getState();
             console.log("St: ", st);
         }
+    },
+    extraReducers: (builder) => {
+        builder.addCase(addProductToCurrentInventory.fulfilled, ()=>{
+            return [];
+        })
     }
 })
 
 // redux thunk to add product to current_inventory
 export const addProductToCurrentInventory = createAsyncThunk(
-    'addToDb/addToFirebase',
+    'addToFirebase',
     async (data, { getState }) => {
         const state = getState();
-        console.log("State: ", state);
+        console.log("Statef34f: ", state);
         // console.log("kejfwe", authSlice(state));
         const productList = state.addToDb;
         console.log("State: ", state.addToDb)
