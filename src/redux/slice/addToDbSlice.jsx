@@ -1,25 +1,23 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
 import { db } from '../../firebase';
-import {collection, doc, getDocs, query, setDoc, where } from 'firebase/firestore';
-import authSlice from './authSlice';
+import {addDoc, collection, doc, getDocs, query, setDoc, where } from 'firebase/firestore';
 
 
-const initialState = {
-    product: ["hello"]
-}
+
 
 const addToDbSlice = createSlice({
     name: 'addToDb',
-    initialState,
+    initialState: [],
     reducers: {
         addProduct(state, action){
             const {name, expiryDate, brand} = action.payload;
-            const productPresent = Array.isArray(state.product) && state.product.find(product => product.name === name && product.brand === brand && product.expiryDate === expiryDate )
+            console.log("Stateefewwwww, ", state);
+            const productPresent = state.find(product => product.name === name && product.brand === brand && product.expiryDate === expiryDate )
             if(productPresent){
                 productPresent.quantity = productPresent.quantity + action.payload.quantity;
             }
             else{
-                state.product.push(action.payload);
+                state.push(action.payload);
             }
         },
         sendProductsToDb({getState}){
@@ -39,12 +37,15 @@ export const addProductToCurrentInventory = createAsyncThunk(
     'addToFirebase',
     async (data, { getState }) => {
         const state = getState();
-        console.log("Statef34f: ", state);
-        // console.log("kejfwe", authSlice(state));
-        const productList = state.addToDb.product;
-        const docRef = doc(db, 'current_inventory', "5634");    
+        const {user} = getState().auth
+        if(!user){
+            alert("Please login to continue");
+            return;
+        }
+        const productList = state.addToDb;
+        const docRef = doc(db, 'current_inventory', user);    
         await setDoc(docRef, {});
-        // const subcollectionRef = collection(db, 'current_inventory', "5634", 'products' );
+        const subcollectionRef = collection(db, 'current_inventory', user, 'products' );
         const fullDate  = new Date();
         const dateString = fullDate.getFullYear() + "-" + fullDate.getMonth() + "-" + fullDate.getDay();
         productList.map(async product=>{
@@ -52,7 +53,7 @@ export const addProductToCurrentInventory = createAsyncThunk(
                 console.log("Product: ", product)
                 const {barcode, expiryDate} = product;
                 const q = query(
-                    collection(db, 'current_inventory', "5634", "products"),
+                    subcollectionRef,
                     where("category", "==", "Handwash"),
                     where("expiryDate", "==", expiryDate),
                     where("createdAt", "==", dateString)
@@ -63,7 +64,7 @@ export const addProductToCurrentInventory = createAsyncThunk(
                 }
                 else{
                     console.log("Snapshot doesnt exists");
-                    // await addDoc(subcollectionRef, {...product, createdAt: dateString}) ;
+                    await addDoc(subcollectionRef, {...product, createdAt: dateString}) ;
                 }
             }catch(error){
                 console.log(error);
