@@ -8,12 +8,11 @@ import { useDispatch } from 'react-redux';
 import {addProduct} from '../../redux/slice/addToDbSlice'
 import { startCase } from 'lodash';
 import QRCode from 'qrcode.react';
-import jsPDF from 'jspdf';
 
 const AddProduct = () => {
   const dispatch = useDispatch();
-  const [qrCodeText, setQRCodeText] = useState('');
-  const [productDetail, setProductDetail] = useState({barcode: "", name:"", category: "", brand: "", quantity: 0, expiryDate: ""})
+  // const [qrCodeText, setQRCodeText] = useState('');
+  const [productDetail, setProductDetail] = useState({barcode: "", name:"", category: "", brand: "", quantity: null, expiryDate: ""})
   const [inventoryModal, setInventoryModal] = useState(false);
   const [productInfoModal, setProductInfoModal] = useState(false);
 
@@ -22,18 +21,30 @@ const AddProduct = () => {
     setProductDetail(prev=> {
       return {...prev, [name]:value}
     })
+
   }
 
   // barcode scanned and product found in database
   // or after the product is added to database
   const inventoryInfoSubmit = (e) => {
     e.preventDefault();
+    const dateString = new Date().toLocaleDateString('en-US');
+    const date = new Date(dateString.split('/').reverse().join('/'));
+    
     const productDetailCopy = {
       ...productDetail,
-      quantity: parseInt(productDetail.quantity)
+      quantity: parseInt(productDetail.quantity),
+      expiryDate: new Date(productDetail.expiryDate).toLocaleDateString()
+    }
+    if(productDetailCopy.quantity <=0){
+      alert("Please enter the quantity correctly.")
+      return;
+    }
+    if(productDetailCopy.expiryDate >= date){
+      alert("Please enter products that are not expired");
+      return;
     }
     dispatch(addProduct(productDetailCopy));
-
     setInventoryModal(false);
     setProductDetail({barcode: "", name:"", category: "", brand: "", quantity: 0, expiryDate: ""});
   }
@@ -41,6 +52,8 @@ const AddProduct = () => {
   // barcode scanned and product not found in database
   const productInfoSubmit = async (e) => {
     e.preventDefault();
+
+    // removing white spaces and capitalizing the values
     const {name, category, brand} = productDetail;
     const nameCopy =  startCase(name.trim());
     const categoryCopy = startCase(category.trim());

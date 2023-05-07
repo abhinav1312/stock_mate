@@ -47,24 +47,29 @@ export const addProductToCurrentInventory = createAsyncThunk(
         await setDoc(docRef, {});
         const subcollectionRef = collection(db, 'current_inventory', user, 'products' );
         const fullDate  = new Date();
-        const dateString = fullDate.getFullYear() + "-" + fullDate.getMonth() + "-" + fullDate.getDay();
+        const date = new Date().toLocaleDateString();
         productList.map(async product=>{
             try{
                 console.log("Product: ", product)
                 const {barcode, expiryDate} = product;
                 const q = query(
                     subcollectionRef,
-                    where("category", "==", "Handwash"),
+                    where("barcode", "==",barcode ),
                     where("expiryDate", "==", expiryDate),
-                    where("createdAt", "==", dateString)
+                    where("createdAt", "==", date)
                 );
                 const querySnapshot = await getDocs(q);
                 if(querySnapshot.docs.length > 0){
-                    console.log("Query snapshot: ", querySnapshot.docs[0].data());
+                    console.log("Snapshot Exists");
+                    const docId = querySnapshot.docs[0].id;
+                    const docRef = doc(db, "current_inventory", user, "products", docId )
+                    const snapshotDetail = querySnapshot.docs[0].data();
+                    console.log("Snapshot detail: ", snapshotDetail)
+                    await setDoc(docRef, {...snapshotDetail, quantity: snapshotDetail.quantity + product.quantity});
                 }
                 else{
                     console.log("Snapshot doesnt exists");
-                    await addDoc(subcollectionRef, {...product, createdAt: dateString}) ;
+                    await addDoc(subcollectionRef, {...product, createdAt: date}) ;
                 }
             }catch(error){
                 console.log(error);
