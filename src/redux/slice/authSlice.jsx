@@ -11,12 +11,18 @@ const initialState = {
   isLoading: false,
   isError: false,
   errorMessage: '',
+  redirect: false
 };
 
 const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
+  reducers: {
+    setRedirect(state){
+      state = true;
+      state = false;
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(login.pending, (state) => {
@@ -42,9 +48,12 @@ const authSlice = createSlice({
   },
 });
 
-const login = createAsyncThunk('auth/login', async () => {
-  const {user} = await signInWithPopup(auth, provider);
+const login = createAsyncThunk('auth/login', async (navigate) => {
+  try{
 
+  
+  const {user} = await signInWithPopup(auth, provider);
+  navigate('/hero');
   // check if user exists in database
   const userDocRef = doc(db, 'users', user.uid); 
   const snapshot = await getDoc(userDocRef);
@@ -56,10 +65,15 @@ const login = createAsyncThunk('auth/login', async () => {
     const createdAt = new Date();
     await setDoc(userDocRef, { name, email, createdAt });
   }
+
+}catch(error){
+  alert("Error occured while signing in. Please try again.")
+}
 });
 
-const logout = createAsyncThunk('auth/logout', async () => {
+const logout = createAsyncThunk('auth/logout', async (navigate) => {
   await auth.signOut();
+  navigate('/');
 });
 
 export default authSlice.reducer;

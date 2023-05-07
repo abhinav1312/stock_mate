@@ -8,9 +8,11 @@ import { useDispatch } from 'react-redux';
 import {addProduct} from '../../redux/slice/addToDbSlice'
 import { startCase } from 'lodash';
 import QRCode from 'qrcode.react';
+import { useNavigate } from 'react-router-dom';
 
 const AddProduct = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   // const [qrCodeText, setQRCodeText] = useState('');
   const [productDetail, setProductDetail] = useState({barcode: "", name:"", category: "", brand: "", quantity: null, expiryDate: ""})
   const [inventoryModal, setInventoryModal] = useState(false);
@@ -29,24 +31,27 @@ const AddProduct = () => {
   const inventoryInfoSubmit = (e) => {
     e.preventDefault();
     const dateString = new Date().toLocaleDateString('en-US');
-    const date = new Date(dateString.split('/').reverse().join('/'));
+    const date = new Date(dateString);
+    console.log("Daate: ", date);
     
     const productDetailCopy = {
       ...productDetail,
       quantity: parseInt(productDetail.quantity),
-      expiryDate: new Date(productDetail.expiryDate).toLocaleDateString()
+      expiryDate: new Date(productDetail.expiryDate).toLocaleDateString('en-US')
     }
-    if(productDetailCopy.quantity <=0){
+    if(productDetailCopy.quantity <=0 || productDetailCopy.quantity === null){
       alert("Please enter the quantity correctly.")
       return;
     }
-    if(productDetailCopy.expiryDate >= date){
+    const expDate = new Date(productDetailCopy.expiryDate)
+    console.log("EXP DATE: ", expDate);
+    if(expDate < date){
       alert("Please enter products that are not expired");
       return;
     }
     dispatch(addProduct(productDetailCopy));
     setInventoryModal(false);
-    setProductDetail({barcode: "", name:"", category: "", brand: "", quantity: 0, expiryDate: ""});
+    setProductDetail({barcode: "", name:"", category: "", brand: "", quantity: null, expiryDate: ""});
   }
 
   // barcode scanned and product not found in database

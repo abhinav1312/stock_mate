@@ -1,10 +1,14 @@
 import React, { useContext, useRef } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import AuthContext from '../../context/auth/AuthContext';
+import { useDispatch } from 'react-redux';
+import { logout } from '../../redux/slice/authSlice';
 
 const Aside = () => {
   // const {handleSignOut} = useContext(AuthContext);
   const asideRef = useRef();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleClick = () => {
     const asideClasses = asideRef.current.classList
@@ -74,7 +78,7 @@ const Aside = () => {
               </NavLink>
             </li>
             <br />
-            <button className="pr-20 hover:bg-green-700 w-full">
+            <button onClick={()=>dispatch(logout(navigate))} className="pr-20 hover:bg-green-700 w-full">
               Sign out
             </button>
             <br />

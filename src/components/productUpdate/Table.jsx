@@ -4,8 +4,10 @@ import { addProductToCurrentInventory } from '../../redux/slice/addToDbSlice';
 import QRCode from 'qrcode.react';
 import jsPDF from 'jspdf';
 import { DownloadIcon, PrintIcon } from '../../assets/SVG';
+import { useNavigate } from 'react-router-dom';
 
 const Table = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const productList = useSelector((state) => {
     return state.addToDb;
@@ -31,7 +33,7 @@ const Table = () => {
   };
 
   const addToDb = () => {
-    dispatch(addProductToCurrentInventory());
+    dispatch(addProductToCurrentInventory(navigate));
   };
   return (
     <section>

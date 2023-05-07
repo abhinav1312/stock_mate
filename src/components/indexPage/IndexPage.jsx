@@ -13,11 +13,10 @@ const IndexPage = () => {
   // const loggedIn = useContext(AuthContext).loggedIn
 
   const handleSignIn = () => {
-    dispatch(login());
+    dispatch(login(navigate));
   }
 
   const handleClick = () => {
-    console.log("clicked")
     navigate('/hero/product_update')
   }
   return (

@@ -1,9 +1,7 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
 import { db } from '../../firebase';
 import {addDoc, collection, doc, getDocs, query, setDoc, where } from 'firebase/firestore';
-
-
-
+import { useDispatch } from 'react-redux';
 
 const addToDbSlice = createSlice({
     name: 'addToDb',
@@ -35,23 +33,25 @@ const addToDbSlice = createSlice({
 // redux thunk to add product to current_inventory
 export const addProductToCurrentInventory = createAsyncThunk(
     'addToFirebase',
-    async (data, { getState }) => {
+    async (navigate, { getState }) => {
         const state = getState();
         const {user} = getState().auth
         if(!user){
             alert("Please login to continue");
+            navigate('/');
             return;
         }
         const productList = state.addToDb;
         const docRef = doc(db, 'current_inventory', user);    
         await setDoc(docRef, {});
         const subcollectionRef = collection(db, 'current_inventory', user, 'products' );
-        const fullDate  = new Date();
-        const date = new Date().toLocaleDateString();
+        const date = new Date().toLocaleDateString('en-US');
         productList.map(async product=>{
             try{
                 console.log("Product: ", product)
                 const {barcode, expiryDate} = product;
+
+                // query to check whther the same product is added the same day
                 const q = query(
                     subcollectionRef,
                     where("barcode", "==",barcode ),
@@ -59,21 +59,19 @@ export const addProductToCurrentInventory = createAsyncThunk(
                     where("createdAt", "==", date)
                 );
                 const querySnapshot = await getDocs(q);
-                if(querySnapshot.docs.length > 0){
-                    console.log("Snapshot Exists");
+                if(querySnapshot.docs.length > 0){ // product added same  day
                     const docId = querySnapshot.docs[0].id;
                     const docRef = doc(db, "current_inventory", user, "products", docId )
                     const snapshotDetail = querySnapshot.docs[0].data();
                     console.log("Snapshot detail: ", snapshotDetail)
                     await setDoc(docRef, {...snapshotDetail, quantity: snapshotDetail.quantity + product.quantity});
                 }
-                else{
-                    console.log("Snapshot doesnt exists");
+                else{ // this product not added today
                     await addDoc(subcollectionRef, {...product, createdAt: date}) ;
                 }
             }catch(error){
                 console.log(error);
-                // alert("Some error occured while adding the products to firebase");
+                alert("Some error occured while adding the products to firebase");
             }
         })
       }    
