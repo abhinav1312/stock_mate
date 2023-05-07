@@ -4,7 +4,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import addToDbSlice from "./slice/addToDbSlice";
 import authSlice from "./slice/authSlice.jsx";
 import storage from 'redux-persist/lib/storage'
-import {persistReducer } from "redux-persist";
+import {persistStore,  persistReducer } from "redux-persist";
 import { combineReducers} from "@reduxjs/toolkit";
 
 const persistConfig = {
@@ -26,3 +26,4 @@ const store = configureStore({
 })
 
 export default store;
+export const persistor = persistStore(store);

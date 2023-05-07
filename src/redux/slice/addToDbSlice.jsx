@@ -3,18 +3,23 @@ import { db } from '../../firebase';
 import {collection, doc, getDocs, query, setDoc, where } from 'firebase/firestore';
 import authSlice from './authSlice';
 
+
+const initialState = {
+    product: ["hello"]
+}
+
 const addToDbSlice = createSlice({
     name: 'addToDb',
-    initialState:[],
+    initialState,
     reducers: {
         addProduct(state, action){
-            const {name, expiryDate, brand} = action.payload
-            const productPresent = state.find(product => product.name === name && product.brand === brand && product.expiryDate === expiryDate )
+            const {name, expiryDate, brand} = action.payload;
+            const productPresent = Array.isArray(state.product) && state.product.find(product => product.name === name && product.brand === brand && product.expiryDate === expiryDate )
             if(productPresent){
                 productPresent.quantity = productPresent.quantity + action.payload.quantity;
             }
             else{
-                state.push(action.payload);
+                state.product.push(action.payload);
             }
         },
         sendProductsToDb({getState}){
@@ -36,22 +41,21 @@ export const addProductToCurrentInventory = createAsyncThunk(
         const state = getState();
         console.log("Statef34f: ", state);
         // console.log("kejfwe", authSlice(state));
-        const productList = state.addToDb;
-        console.log("State: ", state.addToDb)
+        const productList = state.addToDb.product;
         const docRef = doc(db, 'current_inventory', "5634");    
         await setDoc(docRef, {});
         // const subcollectionRef = collection(db, 'current_inventory', "5634", 'products' );
         const fullDate  = new Date();
-        // const dateString = fullDate.getFullYear() + "-" + fullDate.getMonth() + "-" + fullDate.getDay();
+        const dateString = fullDate.getFullYear() + "-" + fullDate.getMonth() + "-" + fullDate.getDay();
         productList.map(async product=>{
             try{
                 console.log("Product: ", product)
-                // const {barcode, expiryDate} = product;
+                const {barcode, expiryDate} = product;
                 const q = query(
                     collection(db, 'current_inventory', "5634", "products"),
-                    where("category", "==", "Handwash")
-                    // where("expiryDate", "==", expiryDate),
-                    // where("createdAt", "==", dateString)
+                    where("category", "==", "Handwash"),
+                    where("expiryDate", "==", expiryDate),
+                    where("createdAt", "==", dateString)
                 );
                 const querySnapshot = await getDocs(q);
                 if(querySnapshot.docs.length > 0){

@@ -8,6 +8,7 @@ import { DownloadIcon, PrintIcon } from '../../assets/SVG';
 const Table = () => {
   const dispatch = useDispatch();
   const productList = useSelector((state) => {
+    console.log("Dhgasd", state)
     return state.addToDb;
   });
 
