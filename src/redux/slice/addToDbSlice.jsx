@@ -1,7 +1,6 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
 import { db } from '../../firebase';
 import {addDoc, collection, doc, getDocs, query, setDoc, where } from 'firebase/firestore';
-import { useDispatch } from 'react-redux';
 
 const addToDbSlice = createSlice({
     name: 'addToDb',
@@ -9,7 +8,6 @@ const addToDbSlice = createSlice({
     reducers: {
         addProduct(state, action){
             const {name, expiryDate, brand} = action.payload;
-            console.log("Stateefewwwww, ", state);
             const productPresent = state.find(product => product.name === name && product.brand === brand && product.expiryDate === expiryDate )
             if(productPresent){
                 productPresent.quantity = productPresent.quantity + action.payload.quantity;

@@ -1,14 +1,19 @@
-import React from 'react'
-import Template from '../template/Template'
+import React, { useState } from 'react'
+import CurrInventory from './CurrInventory';
+import SoldInventory from './SoldInventory';
 
 const Inventory = () => {
+    const [currInventory, setCurrInventory] = useState(true);
   return (
-    <>
-    <Template>
-      <h1> Inventory </h1> 
+    <section>
+      <div className="grid grid-cols-2">
+        <button onClick={()=>setCurrInventory(true)} style={currInventory? {backgroundColor: "grey"} : {backgroundColor: ""} } className="border">Current Inventory</button>
+        <button onClick={()=>setCurrInventory(false)} style={currInventory? {backgroundColor: ""}: {backgroundColor: "grey"} } className="border">Sold Inventory</button>
+      </div>
 
-    </Template>
-    </>
+      {currInventory ? <CurrInventory /> : <SoldInventory /> }
+    </section>
+
   )
 }
 

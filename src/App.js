@@ -8,8 +8,6 @@ import Template2 from "./components/template/Template2";
 import AddProduct from "./components/productUpdate/AddProduct";
 import SellProduct from "./components/productUpdate/SellProduct";
 import ViewDetail from "./components/productUpdate/ViewDetail";
-import QRgenerator from "./components/productUpdate/QRgenerator";
-import QRgenerator2 from "./components/productUpdate/QRGenerator2";
 
 function App() {
   return (
@@ -28,8 +26,8 @@ function App() {
               <Route path='sell_product' element={<SellProduct />} />
               <Route path='view_detail' element={<ViewDetail />} />
             </Route>
+            <Route path="inventory" element = {<Inventory />} />
           </Route>
-          <Route path="/hero/inventory" element = {<Inventory />} />
           <Route path="*" element = {<h1> Error 404 </h1>} />
         </Routes>
       </BrowserRouter>

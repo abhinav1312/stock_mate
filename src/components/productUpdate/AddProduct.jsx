@@ -8,12 +8,9 @@ import { useDispatch } from 'react-redux';
 import {addProduct} from '../../redux/slice/addToDbSlice'
 import { startCase } from 'lodash';
 import QRCode from 'qrcode.react';
-import { useNavigate } from 'react-router-dom';
 
 const AddProduct = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  // const [qrCodeText, setQRCodeText] = useState('');
   const [productDetail, setProductDetail] = useState({barcode: "", name:"", category: "", brand: "", quantity: null, expiryDate: ""})
   const [inventoryModal, setInventoryModal] = useState(false);
   const [productInfoModal, setProductInfoModal] = useState(false);
@@ -44,7 +41,6 @@ const AddProduct = () => {
       return;
     }
     const expDate = new Date(productDetailCopy.expiryDate)
-    console.log("EXP DATE: ", expDate);
     if(expDate < date){
       alert("Please enter products that are not expired");
       return;
