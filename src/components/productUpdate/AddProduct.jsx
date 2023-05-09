@@ -6,12 +6,12 @@ import InventoryModal from './InventoryModal';
 import Table from './Table';
 import { useDispatch } from 'react-redux';
 import {addProduct} from '../../redux/slice/addToDbSlice'
-import { startCase } from 'lodash';
+import { lowerCase } from 'lodash';
 import QRCode from 'qrcode.react';
 
 const AddProduct = () => {
   const dispatch = useDispatch();
-  const [productDetail, setProductDetail] = useState({barcode: "", name:"", category: "", brand: "", quantity: null, expiryDate: ""})
+  const [productDetail, setProductDetail] = useState({barcode: "", name:"", category: "", brand: "", quantity: 0, expiryDate: ""})
   const [inventoryModal, setInventoryModal] = useState(false);
   const [productInfoModal, setProductInfoModal] = useState(false);
 
@@ -27,27 +27,25 @@ const AddProduct = () => {
   // or after the product is added to database
   const inventoryInfoSubmit = (e) => {
     e.preventDefault();
-    const dateString = new Date().toLocaleDateString('en-US');
-    const date = new Date(dateString);
-    console.log("Daate: ", date);
-    
+    // coverting date to epoch and then integer for easy comparison
+    const currDate = (new Date()).setHours(0, 0, 0, 0);
     const productDetailCopy = {
       ...productDetail,
       quantity: parseInt(productDetail.quantity),
-      expiryDate: new Date(productDetail.expiryDate).toLocaleDateString('en-US')
+      expiryDate: productDetail.expiryDate
     }
-    if(productDetailCopy.quantity <=0 || productDetailCopy.quantity === null){
+    if(productDetailCopy.quantity <=0){
       alert("Please enter the quantity correctly.")
       return;
     }
-    const expDate = new Date(productDetailCopy.expiryDate)
-    if(expDate < date){
+    
+    if(productDetailCopy.expiryDate < currDate){
       alert("Please enter products that are not expired");
       return;
     }
     dispatch(addProduct(productDetailCopy));
     setInventoryModal(false);
-    setProductDetail({barcode: "", name:"", category: "", brand: "", quantity: null, expiryDate: ""});
+    setProductDetail({barcode: "", name:"", category: "", brand: "", quantity: 0, expiryDate: ""});
   }
 
   // barcode scanned and product not found in database
@@ -56,9 +54,9 @@ const AddProduct = () => {
 
     // removing white spaces and capitalizing the values
     const {name, category, brand} = productDetail;
-    const nameCopy =  startCase(name.trim());
-    const categoryCopy = startCase(category.trim());
-    const brandCopy = startCase(brand.trim());
+    const nameCopy =  lowerCase(name.trim());
+    const categoryCopy = lowerCase(category.trim());
+    const brandCopy = lowerCase(brand.trim());
     if(nameCopy === '' || categoryCopy === ''  || brandCopy === ''){
       alert("Please fill all the required fields");
       return;

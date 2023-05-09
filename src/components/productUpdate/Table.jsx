@@ -7,6 +7,8 @@ import { DownloadIcon, PrintIcon } from '../../assets/SVG';
 import { useNavigate } from 'react-router-dom';
 
 const Table = () => {
+
+  
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const productList = useSelector((state) => {
@@ -88,12 +90,12 @@ const Table = () => {
                         {/* <button onClick={window.print()}>Downloaddd</button> */}
                       </td>
                     </tr>
-                    <QRCode
-                      id="qrCodeEl"
-                      size={150}
-                      value={JSON.stringify(product)}
-                      className="hidden"
-                    />
+                      <QRCode
+                        id="qrCodeEl"
+                        size={150}
+                        value={JSON.stringify(product)}
+                        className="hidden"
+                      />
                   </>
                 );
               })}

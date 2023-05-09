@@ -1,5 +1,8 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
 import { db } from '../../firebase';
+import { Timestamp } from 'firebase/firestore';
+
+import 'firebase/firestore';
 import {addDoc, collection, doc, getDocs, query, setDoc, where } from 'firebase/firestore';
 
 const addToDbSlice = createSlice({
@@ -25,6 +28,10 @@ const addToDbSlice = createSlice({
         builder.addCase(addProductToCurrentInventory.fulfilled, ()=>{
             return [];
         })
+        builder.addCase(addProductToCurrentInventory.rejected, (state, error)=>{
+            console.log("Errorrr: ", error)
+        })
+        
     }
 })
 
@@ -39,22 +46,30 @@ export const addProductToCurrentInventory = createAsyncThunk(
             navigate('/');
             return;
         }
+        console.log("running");
         const productList = state.addToDb;
         const docRef = doc(db, 'current_inventory', user);    
         await setDoc(docRef, {});
-        const subcollectionRef = collection(db, 'current_inventory', user, 'products' );
-        const date = new Date().toLocaleDateString('en-US');
+        const productCollectionRef = collection(db, 'current_inventory', user, 'products' );
+        const categoryCollectionRef = collection(db, 'current_inventory', user, 'categories' );
+        const brandCollectionRef = collection(db, 'current_inventory', user, 'brands' );
+
+        const currDate = new Date().toUTCString();
+        console.log("Runinngggg")
+        const currTimestamp = Timestamp.fromDate(currDate);
+        console.log("Curr tiemstamp: ", currTimestamp);
         productList.map(async product=>{
             try{
-                console.log("Product: ", product)
-                const {barcode, expiryDate} = product;
+                const {barcode, expiryDate, category, brand} = product;
+                const categoryDocRef = doc(db, 'current_inventory', user, 'categories', category);
+                const brandDocRef = doc(db, 'current_inventory', user, 'brands', brand );
 
                 // query to check whther the same product is added the same day
                 const q = query(
-                    subcollectionRef,
+                    productCollectionRef,
                     where("barcode", "==",barcode ),
-                    where("expiryDate", "==", expiryDate),
-                    where("createdAt", "==", date)
+                    // where("expiryDate", "==", expiryDate),
+                    // where("createdAt", "==", currTimestamp)
                 );
                 const querySnapshot = await getDocs(q);
                 if(querySnapshot.docs.length > 0){ // product added same  day
@@ -62,10 +77,14 @@ export const addProductToCurrentInventory = createAsyncThunk(
                     const docRef = doc(db, "current_inventory", user, "products", docId )
                     const snapshotDetail = querySnapshot.docs[0].data();
                     console.log("Snapshot detail: ", snapshotDetail)
+                    // await setDoc(docRef, {...snapshotDetail, quantity: snapshotDetail.quantity + product.quantity, expiryDate: Timestamp.fromDate(snapshotDetail.expiryDate)});
                     await setDoc(docRef, {...snapshotDetail, quantity: snapshotDetail.quantity + product.quantity});
                 }
                 else{ // this product not added today
-                    await addDoc(subcollectionRef, {...product, createdAt: date}) ;
+                    await addDoc(productCollectionRef, {...product, createdAt: currTimestamp});
+                    // await addDoc(productCollectionRef, {...product, createdAt: currTimestamp, expiryDate: Timestamp.fromDate(product.expiryDate)});
+                    // await setDoc(categoryDocRef, {name: category})
+                    // await setDoc(brandDocRef, {name: brand})
                 }
             }catch(error){
                 console.log(error);
