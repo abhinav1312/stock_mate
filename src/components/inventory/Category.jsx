@@ -1,33 +1,47 @@
 import { collection, getDocs } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import { db } from '../../firebase';
+import Cookies from 'js-cookie';
+import { isEqual } from 'lodash';
 
 const Category = ({handleCatChange}) => {
   const [categoryList, setCategoryList] = useState([]);
-  
+
+  const catListCookie = Cookies.get('catList');
   useEffect(() => {
+    const collectionRef = collection(
+      db,
+      'current_inventory',
+      'nOpnwTQ0X7MH97366rGY3443SGr2',
+      'categories'
+    );
     const getData = async () => {
-      const collectionRef = collection(
-        db,
-        'current_inventory',
-        'nOpnwTQ0X7MH97366rGY3443SGr2',
-        'categories'
-      );
-      const snapshot = await getDocs(collectionRef);
-      snapshot.docs.map((snap) => {
-        console.log(snap.id);
-        return 1;
-      });
-
-      setCategoryList(
-        snapshot.docs.map((snap) => {
+      if (catListCookie){
+        setCategoryList([...JSON.parse(catListCookie)]);
+        console.log("catListCookie", [...JSON.parse(catListCookie)]);
+        const snapshot = await getDocs(collectionRef);
+        const snapShotArray = 
+          snapshot.docs.map((snap) => {
+            return snap.id;
+          })
+        const sameBrands = isEqual(snapShotArray, JSON.parse(catListCookie));
+        if(!sameBrands){
+          setCategoryList([...snapShotArray]);
+          Cookies.set('brandList', JSON.stringify(snapShotArray))
+        }
+        // console.log("Smae snapshot array ", snapShotArray);
+      }
+      else{
+        const snapshot = await getDocs(collectionRef);
+        const snapshotArray = (snapshot.docs.map((snap) => {
           return snap.id;
-        })
-      );
+        }))
+        setCategoryList([...snapshotArray]);
+        Cookies.set('brandList', JSON.stringify(snapshotArray));
+      }
     };
-
     getData();
-  }, []);
+  }, [catListCookie]);
 
   return (
     <div className='col-span-3'>

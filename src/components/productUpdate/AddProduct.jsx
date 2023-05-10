@@ -29,6 +29,7 @@ const AddProduct = () => {
     e.preventDefault();
     // coverting date to epoch and then integer for easy comparison
     const currDate = (new Date()).setHours(0, 0, 0, 0);
+    const expDate =  (new Date(productDetail.expiryDate)).setHours(0, 0, 0, 0);
     const productDetailCopy = {
       ...productDetail,
       quantity: parseInt(productDetail.quantity),
@@ -38,8 +39,7 @@ const AddProduct = () => {
       alert("Please enter the quantity correctly.")
       return;
     }
-    
-    if(productDetailCopy.expiryDate < currDate){
+    if(expDate < currDate){
       alert("Please enter products that are not expired");
       return;
     }

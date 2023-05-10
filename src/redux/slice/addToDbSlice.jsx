@@ -54,22 +54,28 @@ export const addProductToCurrentInventory = createAsyncThunk(
         const categoryCollectionRef = collection(db, 'current_inventory', user, 'categories' );
         const brandCollectionRef = collection(db, 'current_inventory', user, 'brands' );
 
-        const currDate = new Date().toUTCString();
-        console.log("Runinngggg")
+        const currDateString = new Date().toLocaleDateString();
+        const currDate = new Date(Date.parse(currDateString.split('/').reverse().join('/')));
+        currDate.setHours(0, 0, 0, 0);
+        console.log("Cureeeer;  ", currDate)
         const currTimestamp = Timestamp.fromDate(currDate);
+        console.log("Runinngggg")
+        // const currTimestamp = Timestamp.fromDate(currDate);
         console.log("Curr tiemstamp: ", currTimestamp);
         productList.map(async product=>{
             try{
                 const {barcode, expiryDate, category, brand} = product;
                 const categoryDocRef = doc(db, 'current_inventory', user, 'categories', category);
                 const brandDocRef = doc(db, 'current_inventory', user, 'brands', brand );
-
+                const expDate = new Date(Date.parse(expiryDate));
+                expDate.setHours(0, 0, 0, 0);
+                const expTimestamp = Timestamp.fromDate(expDate)
                 // query to check whther the same product is added the same day
                 const q = query(
                     productCollectionRef,
                     where("barcode", "==",barcode ),
-                    // where("expiryDate", "==", expiryDate),
-                    // where("createdAt", "==", currTimestamp)
+                    where("expiryDate", "==", expTimestamp),
+                    where("createdAt", "==", currTimestamp)
                 );
                 const querySnapshot = await getDocs(q);
                 if(querySnapshot.docs.length > 0){ // product added same  day
@@ -82,9 +88,9 @@ export const addProductToCurrentInventory = createAsyncThunk(
                 }
                 else{ // this product not added today
                     await addDoc(productCollectionRef, {...product, createdAt: currTimestamp});
-                    // await addDoc(productCollectionRef, {...product, createdAt: currTimestamp, expiryDate: Timestamp.fromDate(product.expiryDate)});
-                    // await setDoc(categoryDocRef, {name: category})
-                    // await setDoc(brandDocRef, {name: brand})
+                    await addDoc(productCollectionRef, {...product, createdAt: currTimestamp, expiryDate: expTimestamp});
+                    await setDoc(categoryDocRef, {name: category})
+                    await setDoc(brandDocRef, {name: brand})
                 }
             }catch(error){
                 console.log(error);

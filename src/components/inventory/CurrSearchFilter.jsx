@@ -5,7 +5,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { collection, getDocs, query, where } from 'firebase/firestore';
+import { Timestamp, collection, getDocs, query, where } from 'firebase/firestore';
 import { format } from 'date-fns';
 import { db } from '../../firebase';
 
@@ -37,7 +37,8 @@ const CurrSearchFilter = () => {
       const { field, operator, value } = whereCondition;
       return query(acc, where(field, operator, value));
     }, initialQuery);
-
+    const data = await getDocs(dynamicQuery);
+    console.log("Filtered dat: ", data);
     console.log("Dynamic query: ", dynamicQuery)
     
     // setProductList(snapshot.docs.map(snap=>{return snap.data()}))
@@ -46,45 +47,47 @@ const CurrSearchFilter = () => {
   console.log("ProductList", productList);
 
   const handleExpChange = (date) => {
-    // setExpiryDate(date);
-
-    // const expDatePresent = selectedFilters.find(
-    //   (filter) => filter.id === 'expLimit'
-    // );
-    // if (expDatePresent) {
-    //   expDatePresent.value = date;
-    // } else {
-    //   setSelectedFilers((prev) => {
-    //     return [...prev, { field: 'expiryDate', operator: "==",  value: date, id:"expLimit"}];
-    //   });
-    // }
+    setExpiryDate(date);
+    const timestampDate = Timestamp.fromDate(date)
+    const expDatePresent = selectedFilters.find(
+      (filter) => filter.id === 'expLimit'
+    );
+    if (expDatePresent) {
+      expDatePresent.value = timestampDate;
+    } else {
+      setSelectedFilers((prev) => {
+        return [...prev, { field: 'expiryDate', operator: "<=",  value: timestampDate, id:"expLimit"}];
+      });
+    }
   };
   const handleEndDate = (date) => {
-    // setEndDate(date);
-    // const endDatePresent = selectedFilters.find(
-    //   (filter) => filter.id === 'endDate'
-    // );
-    // if (endDatePresent) {
-    //   endDatePresent.value = date;
-    // } else {
-    //   setSelectedFilers((prev) => {
-    //     // return [...prev, { endDate: date, id: 'endDate' }];
-    //     return [...prev, { field: 'createdAt', operator: "==",  value: date, id: "endDate"}];
-    //   });
-    // }
+    setEndDate(date);
+    const timestampDate = Timestamp.fromDate(date)
+    const endDatePresent = selectedFilters.find(
+      (filter) => filter.id === 'endDate'
+    );
+    if (endDatePresent) {
+      endDatePresent.value = timestampDate;
+    } else {
+      setSelectedFilers((prev) => {
+        // return [...prev, { endDate: date, id: 'endDate' }];
+        return [...prev, { field: 'createdAt', operator: "<=",  value: timestampDate, id: "endDate"}];
+      });
+    }
   };
   const handleStartDate = (date) => {
-    // setStartDate(date);
-    // const startDatePresent = selectedFilters.find(
-    //   (filter) => filter.id === 'startDate'
-    // );
-    // if (startDatePresent) {
-    //   startDatePresent.value = date;
-    // } else {
-    //   setSelectedFilers((prev) => {
-    //     return [...prev, { field: 'createdAt', operator: ">=",  value: date, id: "startDate"}];
-    //   });
-    // }
+    setStartDate(date);
+    const timestampDate = Timestamp.fromDate(date)
+    const startDatePresent = selectedFilters.find(
+      (filter) => filter.id === 'startDate'
+    );
+    if (startDatePresent) {
+      startDatePresent.value = timestampDate;
+    } else {
+      setSelectedFilers((prev) => {
+        return [...prev, { field: 'createdAt', operator: ">=",  value: timestampDate, id: "startDate"}];
+      });
+    }
   };
   const handleCatChange = (e) => {
     setCatSelected(e.target.value);
