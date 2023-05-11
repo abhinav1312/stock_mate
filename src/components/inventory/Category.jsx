@@ -44,14 +44,14 @@ const Category = ({handleCatChange}) => {
   }, [catListCookie]);
 
   return (
-    <div className='col-span-3'>
+    <div>
       <select
         className="border py-2 px-2 outline-none w-full"
         name="category"
         id="category"
         onChange={handleCatChange}
       >
-        <option value={null}>--Select category--</option>
+        <option value={"null"}>--Select category--</option>
         {categoryList.length > 0 &&
           categoryList.map((category, id) => {
             return (

@@ -1,11 +1,11 @@
 import React from 'react'
+import QRScanner from './QRScanner'
 
 const SellProduct = () => {
   return (
     <section>
-      <h1 className="text-5xl">
-        Sell product
-      </h1>
+      <QRScanner />
+      
     </section>
   )
 }

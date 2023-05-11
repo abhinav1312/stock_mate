@@ -3,49 +3,15 @@ import Category from './Category';
 import Brand from './Brand';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-
-
-import { Timestamp, collection, getDocs, query, where } from 'firebase/firestore';
-import { format } from 'date-fns';
-import { db } from '../../firebase';
+import { Timestamp } from 'firebase/firestore';
 
 const CurrSearchFilter = ({getProducts}) => {
-  // const userId = useSelector(state=>{
-  //   return state.auth.user;
-  // })
-  // const navigate = useNavigate();
-  // eslint-disable-next-line
-  const [catSelected, setCatSelected] = useState(null); // category selected by user
-  // eslint-disable-next-line
-  const [brandSelected, setBrandSelected] = useState(null); // category selected by user
   const [expStartDt, setExpStartDt] = useState(null);
   const [expEndDt, setExpEndDt] = useState(null);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [selectedFilters, setSelectedFilers] = useState([]);
-  // const [productList, setProductList] = useState([]);
 
-  // const sendReq = async () => {
-  //   // console.log("getData called")
-  //   // if(!userId){
-  //   //   alert("Please login to continue..")
-  //   //   navigate('/');
-  //   //   return;
-  //   // }
-  //   // const collectionRef = collection(db, 'current_inventory', userId, "products");
-  //   // const initialQuery = (collectionRef);
-
-  //   // const dynamicQuery = selectedFilters.reduce((acc, whereCondition) => {
-  //     // const { field, operator, value } = whereCondition;
-  //     // return query(acc, where(field, operator, value));
-  //   // }, initialQuery);
-
-
-  //   // const data = await getDocs(dynamicQuery);
-  //   // const productArray = data.docs.map(doc=>{return {id:doc.id, ...doc.data()}});
-  //   // console.log(productArray)
-  //   // setProductList(data.docs.map(doc=>{return {id:doc.id, ...doc.data()}}))
-  // }
   const handleExpStart = (date) => {
     setExpStartDt(date);
     const timestampDate = Timestamp.fromDate(date)
@@ -103,7 +69,7 @@ const CurrSearchFilter = ({getProducts}) => {
     }
   };
   const handleCatChange = (e) => {
-    setCatSelected(e.target.value);
+    // setCatSelected(e.target.value);
     if (e.target.value !== null && e.target.value !== 'null' ) {
       const catPresent = selectedFilters.find(
         (filter) => filter.id === 'category'
@@ -129,7 +95,7 @@ const CurrSearchFilter = ({getProducts}) => {
   };
 
   const handleBrandChange = (e) => {
-    setBrandSelected(e.target.value);
+    // setBrandSelected(e.target.value);
     if (e.target.value !== null && e.target.value !== 'null' ) {
       const brandPresent = selectedFilters.find(
         (filter) => filter.id === 'brand'
@@ -188,7 +154,6 @@ const CurrSearchFilter = ({getProducts}) => {
             className="outline-none w-full p-2"
             placeholderText="Product added start date"
             selected={startDate}
-            // onChange={(date) => setStartDate(date)}
             onChange={handleStartDate}
           />
         </div>
@@ -199,7 +164,6 @@ const CurrSearchFilter = ({getProducts}) => {
             className="outline-none w-full p-2"
             placeholderText="Product added end date"
             selected={endDate}
-            // onChange={(date) => setEndDate(date)}
             onChange={handleEndDate}
           />
         </div>

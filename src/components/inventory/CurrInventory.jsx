@@ -1,30 +1,10 @@
-// import React from 'react'
-// import CurrSearchFilter from './CurrSearchFilter';
-// import { useNavigate } from 'react-router-dom';
-
-
-// const CurrInventory = () => {
-//   const navigate = useNavigate();
-//   return (
-//     <>    
-//       <CurrSearchFilter />
-      
-
-
-//     </>
-//   )
-// }
-
-// export default CurrInventory;
-
 import React, { useState } from 'react'
 import CurrSearchFilter from './CurrSearchFilter';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { collection, getDocs, where, query } from 'firebase/firestore';
 import { db } from '../../firebase';
-
-
+import InventoryTable from './InventoryTable';
 
 
 const CurrInventory = () => {
@@ -36,7 +16,8 @@ const CurrInventory = () => {
   })
 
   const getProducts = async (selectedFilters) => {
-    console.log("getData called")
+
+    console.log("getData called", selectedFilters);
     if(!userId){
       alert("Please login to continue..")
       navigate('/');
@@ -50,7 +31,6 @@ const CurrInventory = () => {
       return query(acc, where(field, operator, value));
     }, initialQuery);
 
-
     const data = await getDocs(dynamicQuery);
     const productArray = data.docs.map(doc=>{return {id:doc.id, ...doc.data()}});
     console.log(productArray)
@@ -59,6 +39,7 @@ const CurrInventory = () => {
   return (
     <>    
       <CurrSearchFilter getProducts={getProducts} />
+      <InventoryTable productList={productList} />
       
 
 

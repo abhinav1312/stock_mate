@@ -44,14 +44,14 @@ const Brand = ({ handleBrandChange }) => {
   }, [brandListCookie]);
 
   return (
-    <div className="col-span-3">
+    <div>
       <select
         className="border py-2 px-2 outline-none w-full"
         name="category"
         id="category"
         onChange={handleBrandChange}
       >
-        <option value="Category1">--Select brand--</option>
+        <option value="null">--Select brand--</option>
         {brandList.length > 0 &&
           brandList.map((category, id) => {
             return (
