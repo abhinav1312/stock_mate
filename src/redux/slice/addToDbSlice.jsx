@@ -51,9 +51,7 @@ export const addProductToCurrentInventory = createAsyncThunk(
         const docRef = doc(db, 'current_inventory', user);    
         await setDoc(docRef, {});
         const productCollectionRef = collection(db, 'current_inventory', user, 'products' );
-        const categoryCollectionRef = collection(db, 'current_inventory', user, 'categories' );
-        const brandCollectionRef = collection(db, 'current_inventory', user, 'brands' );
-
+       
         const currDateString = new Date().toLocaleDateString();
         const currDate = new Date(Date.parse(currDateString.split('/').reverse().join('/')));
         currDate.setHours(0, 0, 0, 0);
@@ -87,7 +85,6 @@ export const addProductToCurrentInventory = createAsyncThunk(
                     await setDoc(docRef, {...snapshotDetail, quantity: snapshotDetail.quantity + product.quantity});
                 }
                 else{ // this product not added today
-                    await addDoc(productCollectionRef, {...product, createdAt: currTimestamp});
                     await addDoc(productCollectionRef, {...product, createdAt: currTimestamp, expiryDate: expTimestamp});
                     await setDoc(categoryDocRef, {name: category})
                     await setDoc(brandDocRef, {name: brand})

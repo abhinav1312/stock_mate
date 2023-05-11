@@ -3,60 +3,74 @@ import Category from './Category';
 import Brand from './Brand';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+
+
 import { Timestamp, collection, getDocs, query, where } from 'firebase/firestore';
 import { format } from 'date-fns';
 import { db } from '../../firebase';
 
-const CurrSearchFilter = () => {
-  const userId = useSelector(state=>{
-    return state.auth.user;
-  })
-  const navigate = useNavigate();
+const CurrSearchFilter = ({getProducts}) => {
+  // const userId = useSelector(state=>{
+  //   return state.auth.user;
+  // })
+  // const navigate = useNavigate();
   // eslint-disable-next-line
   const [catSelected, setCatSelected] = useState(null); // category selected by user
   // eslint-disable-next-line
   const [brandSelected, setBrandSelected] = useState(null); // category selected by user
-  const [expiryDate, setExpiryDate] = useState(null);
+  const [expStartDt, setExpStartDt] = useState(null);
+  const [expEndDt, setExpEndDt] = useState(null);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [selectedFilters, setSelectedFilers] = useState([]);
-  const [productList, setProductList] = useState([]);
+  // const [productList, setProductList] = useState([]);
 
-  const getData = async () => {
-    if(!userId){
-      alert("Please login to continue..")
-      navigate('/');
-      return;
-    }
-    const collectionRef = collection(db, 'current_inventory', userId, "products");
-    const initialQuery = (collectionRef);
+  // const sendReq = async () => {
+  //   // console.log("getData called")
+  //   // if(!userId){
+  //   //   alert("Please login to continue..")
+  //   //   navigate('/');
+  //   //   return;
+  //   // }
+  //   // const collectionRef = collection(db, 'current_inventory', userId, "products");
+  //   // const initialQuery = (collectionRef);
 
-    const dynamicQuery = selectedFilters.reduce((acc, whereCondition) => {
-      const { field, operator, value } = whereCondition;
-      return query(acc, where(field, operator, value));
-    }, initialQuery);
-    const data = await getDocs(dynamicQuery);
-    console.log("Filtered dat: ", data);
-    console.log("Dynamic query: ", dynamicQuery)
-    
-    // setProductList(snapshot.docs.map(snap=>{return snap.data()}))
-  }
+  //   // const dynamicQuery = selectedFilters.reduce((acc, whereCondition) => {
+  //     // const { field, operator, value } = whereCondition;
+  //     // return query(acc, where(field, operator, value));
+  //   // }, initialQuery);
 
-  console.log("ProductList", productList);
 
-  const handleExpChange = (date) => {
-    setExpiryDate(date);
+  //   // const data = await getDocs(dynamicQuery);
+  //   // const productArray = data.docs.map(doc=>{return {id:doc.id, ...doc.data()}});
+  //   // console.log(productArray)
+  //   // setProductList(data.docs.map(doc=>{return {id:doc.id, ...doc.data()}}))
+  // }
+  const handleExpStart = (date) => {
+    setExpStartDt(date);
     const timestampDate = Timestamp.fromDate(date)
-    const expDatePresent = selectedFilters.find(
-      (filter) => filter.id === 'expLimit'
+    const expStartPresent = selectedFilters.find(
+      (filter) => filter.id === 'expStart'
     );
-    if (expDatePresent) {
-      expDatePresent.value = timestampDate;
+    if (expStartPresent) {
+      expStartPresent.value = timestampDate;
     } else {
       setSelectedFilers((prev) => {
-        return [...prev, { field: 'expiryDate', operator: "<=",  value: timestampDate, id:"expLimit"}];
+        return [...prev, { field: 'expiryDate', operator: ">=",  value: timestampDate, id:"expStart"}];
+      });
+    }
+  };
+  const handleExpEnd = (date) => {
+    setExpEndDt(date);
+    const timestampDate = Timestamp.fromDate(date)
+    const expEndPresent = selectedFilters.find(
+      (filter) => filter.id === 'expEnd'
+    );
+    if (expEndPresent) {
+      expEndPresent.value = timestampDate;
+    } else {
+      setSelectedFilers((prev) => {
+        return [...prev, { field: 'expiryDate', operator: "<=",  value: timestampDate, id:"expEnd"}];
       });
     }
   };
@@ -70,7 +84,6 @@ const CurrSearchFilter = () => {
       endDatePresent.value = timestampDate;
     } else {
       setSelectedFilers((prev) => {
-        // return [...prev, { endDate: date, id: 'endDate' }];
         return [...prev, { field: 'createdAt', operator: "<=",  value: timestampDate, id: "endDate"}];
       });
     }
@@ -91,7 +104,7 @@ const CurrSearchFilter = () => {
   };
   const handleCatChange = (e) => {
     setCatSelected(e.target.value);
-    if (e.target.value !== null) {
+    if (e.target.value !== null && e.target.value !== 'null' ) {
       const catPresent = selectedFilters.find(
         (filter) => filter.id === 'category'
       );
@@ -99,7 +112,6 @@ const CurrSearchFilter = () => {
         catPresent.value = e.target.value;
       } else {
         setSelectedFilers((prev) => {
-          // return [...prev, { category: e.target.value, id: 'category' }];
           return [...prev, { field: 'category', operator: "==",  value: e.target.value, id: "category"}];
         });
       }
@@ -118,7 +130,7 @@ const CurrSearchFilter = () => {
 
   const handleBrandChange = (e) => {
     setBrandSelected(e.target.value);
-    if (e.target.value !== null) {
+    if (e.target.value !== null && e.target.value !== 'null' ) {
       const brandPresent = selectedFilters.find(
         (filter) => filter.id === 'brand'
       );
@@ -144,23 +156,34 @@ const CurrSearchFilter = () => {
 
   return (
     <section>
-      <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
+      <div className="grid grid-cols-2 gap-4">
         <Category handleCatChange={handleCatChange} />
         <Brand handleBrandChange={handleBrandChange} />
 
-        {/* expiry date limit  */}
-        <div className="col-span-3 md:col-span-2  border">
+        {/* expiry date start date  */}
+        <div className="border border-black">
           <DatePicker
             className="outline-none p-2 w-full"
             placeholderText="Select expiry date limit"
-            selected={expiryDate}
+            selected={expStartDt}
             name="expiryDate"
-            onChange={handleExpChange}
+            onChange={handleExpStart}
+          />
+        </div>
+
+        {/* expiry date end date  */}
+        <div className="border border-black">
+          <DatePicker
+            className="outline-none p-2 w-full"
+            placeholderText="Select expiry date limit"
+            selected={expEndDt}
+            name="expiryDate"
+            onChange={handleExpEnd}
           />
         </div>
 
         {/* product added lower limit  */}
-        <div className="col-span-3 md:col-span-2 border">
+        <div className="border border-black">
           <DatePicker
             className="outline-none w-full p-2"
             placeholderText="Product added start date"
@@ -171,7 +194,7 @@ const CurrSearchFilter = () => {
         </div>
 
         {/* product added upper limit  */}
-        <div className="col-span-3 md:col-span-2 border">
+        <div className="border border-black">
           <DatePicker
             className="outline-none w-full p-2"
             placeholderText="Product added end date"
@@ -181,8 +204,8 @@ const CurrSearchFilter = () => {
           />
         </div>
         <button
-          onClick={getData}
-          className="border md:col-span-6 p-2 bg-green-600 font-medium text-center"
+          onClick={()=>getProducts(selectedFilters)}
+          className="border col-span-2 p-2 bg-green-600 font-medium text-center"
         >
           Filter
         </button>
