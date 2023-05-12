@@ -31,7 +31,7 @@ const QRScanner = ({getProductInfo}) => {
 				/>
 			}
 
-      {/* {result && <p>Scanned result: {result.text}</p>} */}
+      {result && <p>Scanned result: {result}</p>}
     </div>
     </section>
   );
