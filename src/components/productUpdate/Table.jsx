@@ -9,9 +9,6 @@ import { useNavigate } from 'react-router-dom';
 const Table = ({productList, currInventory}) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  // const productList = useSelector((state) => {
-  //   return state.addToDb;
-  // });
 
   const downloadQRCode = (name, brand, expiryDate) => {
     const doc = new jsPDF();
@@ -22,7 +19,7 @@ const Table = ({productList, currInventory}) => {
     doc.save(name + '_' + brand + '_' + expiryDate + '.pdf');
   };
 
-  const printQRCode = (name, brand, expiryDate) => {
+  const printQRCode = () => {
     const doc = new jsPDF();
     const qrCodeImgData = document
       .getElementById('qrCodeEl')
@@ -67,7 +64,6 @@ const Table = ({productList, currInventory}) => {
                 const { name, quantity, category, brand, expiryDate } = product;
                 
                 return (
-                  <>
                     <tr key={id}>
                       <td> {id + 1} </td>
                       <td> {name} </td>
@@ -104,14 +100,15 @@ const Table = ({productList, currInventory}) => {
                         
                       }
                       </td>
+                      <td className='hidden'>
+                        <QRCode
+                          id="qrCodeEl"
+                          size={150}
+                          value={JSON.stringify({...product, createdAt: new Date().toLocaleDateString(), expiryDate: product.expiryDate.split('-').join('/')})}
+                        />
+                      </td>
                     </tr>
-                      <QRCode
-                        id="qrCodeEl"
-                        size={150}
-                        value={JSON.stringify({...product, createdAt: new Date().toLocaleDateString(), expiryDate: product.expiryDate.split('-').join('/')})}
-                        // className="hidden"
-                      />
-                  </>
+                  
                 );
               })}
           </tbody>

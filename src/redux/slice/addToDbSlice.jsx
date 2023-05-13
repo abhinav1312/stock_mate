@@ -40,7 +40,7 @@ export const addProductToCurrentInventory = createAsyncThunk(
     'addToFirebase',
     async (navigate, { getState }) => {
         const state = getState();
-        const {user} = getState().auth
+        const {user} = state.auth
         if(!user){
             alert("Please login to continue");
             navigate('/');
