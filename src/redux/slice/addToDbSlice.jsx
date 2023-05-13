@@ -46,7 +46,6 @@ export const addProductToCurrentInventory = createAsyncThunk(
             navigate('/');
             return;
         }
-        console.log("running");
         const productList = state.addToDb;
         const docRef = doc(db, 'current_inventory', user);    
         await setDoc(docRef, {});
@@ -55,10 +54,9 @@ export const addProductToCurrentInventory = createAsyncThunk(
         const currDateString = new Date().toLocaleDateString();
         const currDate = new Date(Date.parse(currDateString.split('/').reverse().join('/')));
         currDate.setHours(0, 0, 0, 0);
-        console.log("Cureeeer;  ", currDate)
         const currTimestamp = Timestamp.fromDate(currDate);
-        console.log("Runinngggg")
-        // const currTimestamp = Timestamp.fromDate(currDate);
+        
+        
         console.log("Curr tiemstamp: ", currTimestamp);
         productList.map(async product=>{
             try{

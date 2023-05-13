@@ -1,19 +1,17 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { addProductToCurrentInventory } from '../../redux/slice/addToDbSlice';
 import QRCode from 'qrcode.react';
 import jsPDF from 'jspdf';
 import { DownloadIcon, PrintIcon } from '../../assets/SVG';
 import { useNavigate } from 'react-router-dom';
 
-const Table = () => {
-
-  
+const Table = ({productList, currInventory}) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const productList = useSelector((state) => {
-    return state.addToDb;
-  });
+  // const productList = useSelector((state) => {
+  //   return state.addToDb;
+  // });
 
   const downloadQRCode = (name, brand, expiryDate) => {
     const doc = new jsPDF();
@@ -37,6 +35,10 @@ const Table = () => {
   const addToDb = () => {
     dispatch(addProductToCurrentInventory(navigate));
   };
+
+  const sellFromDb = () => {
+    alert("Function left to be defined");
+  }
   return (
     <section>
       <h1 className="text-3xl mb-2">Recently Added Products</h1>
@@ -50,13 +52,20 @@ const Table = () => {
               <th className="w-2/12">Category</th>
               <th className="w-1/12">Quantity</th>
               <th className="w-2/12">Expiry date</th>
-              <th className="w-1/12">QR code</th>
+              {
+                currInventory ? 
+                <th className="w-1/12">QR code</th> 
+                :
+                <th className="w-1/12">Product added at</th> 
+                
+              }
             </tr>
           </thead>
           <tbody>
             {productList.length > 0 &&
               productList.map((product, id) => {
                 const { name, quantity, category, brand, expiryDate } = product;
+                
                 return (
                   <>
                     <tr key={id}>
@@ -67,7 +76,9 @@ const Table = () => {
                       <td> {quantity} </td>
                       <td> {expiryDate} </td>
                       <td>
-                        <div className='flex gap-1 font-semibold items-center hover:bg-gray-100 rounded-full px-2 py-1 transition-all text-green-600'>
+                        { currInventory ?
+                        <>
+                          <div className='flex gap-1 font-semibold items-center hover:bg-gray-100 rounded-full px-2 py-1 transition-all text-green-600'>
                           {DownloadIcon}
                           <button
                             onClick={() =>
@@ -87,14 +98,18 @@ const Table = () => {
                             Print
                           </button>
                         </div>
-                        {/* <button onClick={window.print()}>Downloaddd</button> */}
+                        </>
+                        :
+                        <h1>{product.createdAt}</h1>
+                        
+                      }
                       </td>
                     </tr>
                       <QRCode
                         id="qrCodeEl"
                         size={150}
-                        value={JSON.stringify(product)}
-                        className="hidden"
+                        value={JSON.stringify({...product, createdAt: new Date().toLocaleDateString(), expiryDate: product.expiryDate.split('-').join('/')})}
+                        // className="hidden"
                       />
                   </>
                 );
@@ -103,12 +118,22 @@ const Table = () => {
         </table>
       </div>
       <div className="flex justify-end">
-        <button
-          onClick={addToDb}
-          className="px-6 py-4 bg-green-600 hover:bg-green-700 transition-all rounded-md text-white font-medium mt-4"
-        >
-          Add to database
-        </button>
+        {
+          currInventory ?
+            <button
+              onClick={addToDb}
+              className="px-6 py-4 bg-green-600 hover:bg-green-700 transition-all rounded-md text-white font-medium mt-4"
+            >
+              Add to database
+            </button>
+          :
+          <button
+              onClick={sellFromDb}
+              className="px-6 py-4 bg-green-600 hover:bg-green-700 transition-all rounded-md text-white font-medium mt-4"
+            >
+              Sell the products
+            </button>
+        }
       </div>
     </section>
   );

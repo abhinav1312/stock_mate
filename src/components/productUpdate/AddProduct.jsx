@@ -4,13 +4,14 @@ import {addProductInProductInfo, findProductInProductInfo} from './firebaseFunct
 import ProductInfoModal from './ProductInfoModal';
 import InventoryModal from './InventoryModal';
 import Table from './Table';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {addProduct} from '../../redux/slice/addToDbSlice'
 import { lowerCase } from 'lodash';
 import QRCode from 'qrcode.react';
 
 const AddProduct = () => {
   const dispatch = useDispatch();
+  const productList = useSelector((state)=>{return state.addToDb})
   const [productDetail, setProductDetail] = useState({barcode: "", name:"", category: "", brand: "", quantity: 0, expiryDate: ""})
   const [inventoryModal, setInventoryModal] = useState(false);
   const [productInfoModal, setProductInfoModal] = useState(false);
@@ -98,14 +99,7 @@ const AddProduct = () => {
       <BarcodeScanner getProductInfo={getProductInfo} />
       {productInfoModal && <ProductInfoModal productInfoSubmit = {productInfoSubmit} handleContentChange={handleContentChange} name={productDetail.name} brand={productDetail.brand} category={productDetail.category} /> }
       {inventoryModal && <InventoryModal inventoryInfoSubmit = {inventoryInfoSubmit} handleContentChange={handleContentChange} name={productDetail.name} brand={productDetail.brand} category={productDetail.category} expiryDate={productDetail.expiryDate} quantity={productDetail.quantity} />}
-      <Table />
-
-      <QRCode
-        id="qrCodeEl"
-        size={150}
-        value={productDetail}
-        className='hidden'
-      />
+      <Table currInventory={true} productList={productList}  />
     </div>
     </>
   );

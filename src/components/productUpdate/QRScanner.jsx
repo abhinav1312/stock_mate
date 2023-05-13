@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import QrReader from 'react-qr-scanner';
+import { useDispatch } from 'react-redux';
+import { sellProduct } from '../../redux/slice/sellProductSlice';
 
 const QRScanner = ({getProductInfo}) => {
-    const [result, setResult] = useState('');
+  const dispatch = useDispatch();
 
     const [qrScan, setQrScan] = useState(false);
     const handleError = (err) => {
@@ -10,13 +12,11 @@ const QRScanner = ({getProductInfo}) => {
     };
     const handleScan = (data) => {
 			if (data) {
-				setResult(JSON.parse(data.text));
+        console.log("Prd data: ", JSON.parse(data.text))
+        dispatch(sellProduct(JSON.parse(data.text)));
 				setQrScan(false);
 			}
     };
-    
-
-
   return (
     <section>
       <div>
@@ -30,8 +30,6 @@ const QRScanner = ({getProductInfo}) => {
         style={{ width: '100%' }}
 				/>
 			}
-
-      {result && <p>Scanned result: {result}</p>}
     </div>
     </section>
   );
