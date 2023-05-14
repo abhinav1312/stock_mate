@@ -5,6 +5,7 @@ import QRCode from 'qrcode.react';
 import jsPDF from 'jspdf';
 import { DownloadIcon, PrintIcon } from '../../assets/SVG';
 import { useNavigate } from 'react-router-dom';
+import { removeFromCurrInventory } from '../../redux/slice/sellProductSlice';
 
 const Table = ({productList, currInventory}) => {
   const navigate = useNavigate();
@@ -34,7 +35,7 @@ const Table = ({productList, currInventory}) => {
   };
 
   const sellFromDb = () => {
-    alert("Function left to be defined");
+    dispatch(removeFromCurrInventory(navigate));
   }
   return (
     <section>

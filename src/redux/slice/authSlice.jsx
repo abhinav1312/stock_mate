@@ -8,6 +8,7 @@ import { doc, getDoc, setDoc } from 'firebase/firestore';
 
 const initialState = {
   user: null,
+  name: null,
   isLoading: false,
   isError: false,
   errorMessage: '',
@@ -33,8 +34,8 @@ const authSlice = createSlice({
       })
       .addCase(login.fulfilled, (state) => {
         state.user = auth.currentUser.uid;
-        console.log("Login done")
-        console.log("Auth user :", state.user);
+        state.name = auth.currentUser.displayName;
+        console.log("Displa name", auth.currentUser.displayName);
         state.isLoading = false;
       })
       .addCase(login.rejected, (state, action) => {
@@ -50,8 +51,6 @@ const authSlice = createSlice({
 
 const login = createAsyncThunk('auth/login', async (navigate) => {
   try{
-
-  
   const {user} = await signInWithPopup(auth, provider);
   navigate('/hero');
   // check if user exists in database

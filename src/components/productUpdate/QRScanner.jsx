@@ -12,7 +12,6 @@ const QRScanner = ({getProductInfo}) => {
     };
     const handleScan = (data) => {
 			if (data) {
-        console.log("Prd data: ", JSON.parse(data.text))
         dispatch(sellProduct(JSON.parse(data.text)));
 				setQrScan(false);
 			}

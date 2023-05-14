@@ -1,17 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&family=Poppins:ital,wght@0,300;0,400;0,600;1,200;1,300&family=Raleway:wght@300;400;500;600;700;800&display=swap');
+
+
 *{
     margin: 0; padding: 0; box-sizing: border-box; 
+    font-family: 'Rubik', sans-serif;
+    scroll-behavior: smooth;
+    letter-spacing: .1rem ;
+    @apply transition-all;
 }
 
-h1,
-h2,
-h3,
-h4,
-p{
-    letter-spacing: .1rem ;
+body{
+    background-color: #f8f9fc;
 }
+
+button{
+    @apply border !px-6 !py-4 border-primary rounded-md !font-medium;
+}
+
+button.fill{
+    @apply bg-primary hover:bg-secondary text-white;
+}
+
+.header-navlink{
+    @apply rounded-lg p-2 hover:bg-gray-100;
+}
+
+.hero-section{
+    background-image: linear-gradient(to right top, #f7f8fc, #f0f0fc, #ede6fa, #ecdcf5, #efd1ee);
+}
+
 
 section{
-    @apply py-6
+    @apply py-6;
 }
 
 .active{
@@ -45,6 +65,9 @@ td, th {
     @apply p-2 w-full text-xl focus:border-blue-400 rounded-md focus:outline-none border;
 }
 
+.lap{
+    box-shadow: 0px 10px 20px 2px rgba(0, 0, 0, 0.25);
+}
 @tailwind base;
 
 @layer base {

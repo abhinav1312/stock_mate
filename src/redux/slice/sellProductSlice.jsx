@@ -5,7 +5,6 @@ import {
   addDoc,
   collection,
   doc,
-  getDoc,
   getDocs,
   query,
   setDoc,
@@ -52,9 +51,10 @@ const sellProductSlice = createSlice({
   },
 });
 
-const removeFromCurrInventory = createAsyncThunk(
+export const removeFromCurrInventory = createAsyncThunk(
   'removeFromCurrInventory',
   async (navigate, { getState }) => {
+    console.log('removeFromCurrInventory called');
     const state = getState();
     const { user } = state.auth;
     if (!user) {
@@ -64,30 +64,54 @@ const removeFromCurrInventory = createAsyncThunk(
     }
 
     const productList = state.sellProduct.removeFromCurrInventory;
-		const docRef = doc(db, 'sold_inventory', user);    
-		await setDoc(docRef, {});
+    const docRef = doc(db, 'sold_inventory', user);
+    await setDoc(docRef, {});
     productList.map(async (product) => {
       const { name, brand, category, expiryDate, createdAt, quantity } =
         product;
-      const soldCollectionRef = doc(db, 'sold_inventory', user, 'products');
-      const currCollectionRef = doc(db, 'curr_inventory', user, 'products');
+
+      const expDate = new Date(Date.parse(expiryDate));
+      expDate.setHours(0, 0, 0, 0);
+      const expTimestamp = Timestamp.fromDate(expDate);
+      console.log('Exttmp: ', expTimestamp);
+
+      const createdAtDate = new Date(
+        Date.parse(createdAt.split('/').reverse().join('/'))
+      );
+      createdAtDate.setHours(0, 0, 0, 0);
+      const createdAtTimestamp = Timestamp.fromDate(createdAtDate);
+      console.log('Creatmp: ', createdAtTimestamp);
+      const soldCollectionRef = collection(
+        db,
+        'sold_inventory',
+        user,
+        'products'
+      );
+      const currCollectionRef = collection(
+        db,
+        'current_inventory',
+        user,
+        'products'
+      );
 
       const q = query(
         currCollectionRef,
         where('name', '==', name),
         where('brand', '==', brand),
         where('category', '==', category),
-        where('expiryDate', '==', expiryDate),
-        where('createdAt', '==', createdAt)
+        where('expiryDate', '==', expTimestamp),
+        where('createdAt', '==', createdAtTimestamp)
       );
 
       try {
         const snapshot = await getDocs(q);
         if (snapshot.docs.length > 0) {
+          console.log('snapshot.docs.length > 0');
           const productDetail = snapshot.docs[0].data();
           const productId = snapshot.docs[0].id;
           const totalQuantity = productDetail.quantity;
           if (totalQuantity >= quantity) {
+            console.log('totalQuantity >= quantity');
             try {
               const currInvProdDocRef = doc(
                 db,
@@ -100,31 +124,59 @@ const removeFromCurrInventory = createAsyncThunk(
                 ...productDetail,
                 quantity: totalQuantity - quantity,
               });
-							const currTimestamp = Timestamp.fromDate(new Date());
-							const q = query(
-								soldCollectionRef,
-								where("name" === name),
-								where("brand" === brand),
-								where("category" === category),
-								where("expiryDate" === expiryDate),
-								where("createdAt" === createdAt),
-								where("soldAt" === currTimestamp),
-							)
-							const queriedProduct = await getDocs(q);
-							if(queriedProduct.docs.length > 0){
-								const productDetail =  queriedProduct.docs[0].data();
-								const productId = queriedProduct.docs[0].id;
-								const ref = doc(db, 'sold_inventory', user, 'products', productId)
-								await setDoc(ref, {...productDetail, quantity: productDetail.quantity+quantity});
-							}
-							else{
-								const ref = collection(db, 'sold_inventory', user, 'products')
-								await addDoc(ref, product);
-							}
+              console.log('Product quanitity decreased');
+              const currDateString = new Date().toLocaleDateString();
+              const currDate = new Date(
+                Date.parse(currDateString.split('/').reverse().join('/'))
+              );
+              currDate.setHours(0, 0, 0, 0);
+              const currTimestamp = Timestamp.fromDate(currDate);
+              const q = query(
+                soldCollectionRef,
+                where('name', '==', name),
+                where('brand', '==', brand),
+                where('category', '==', category),
+                where('expiryDate', '==', expiryDate),
+                where('createdAt', '==', createdAt),
+                where('soldAt', '==', currTimestamp)
+              );
+              const queriedProduct = await getDocs(q);
+              console.log('Sold invenrtory queried');
+              if (queriedProduct.docs.length > 0) {
+                console.log('queriedProduct.docs.length > 0');
+                const productDetail = queriedProduct.docs[0].data();
+                const productId = queriedProduct.docs[0].id;
+                const ref = doc(
+                  db,
+                  'sold_inventory',
+                  user,
+                  'products',
+                  productId
+                );
+                await setDoc(ref, {
+                  ...productDetail,
+                  quantity: productDetail.quantity + quantity,
+                });
+              } else {
+                console.log('else queriedProduct.docs.length < 0');
+                const ref = collection(db, 'sold_inventory', user, 'products');
+                await addDoc(ref, {
+                  ...product,
+                  createdAt: createdAtTimestamp,
+                  expiryDate: expTimestamp,
+                  soldDate: currTimestamp,
+                });
+                console.log('Successfully added to sold inventory');
+              }
             } catch (error) {
               console.log('Error');
+              console.log(error);
             }
+          } else {
+            console.log('Quantity less');
           }
+        } else {
+          console.log('No product found');
         }
       } catch (error) {
         alert('Some error coccured while searching. Please try again');
@@ -133,6 +185,5 @@ const removeFromCurrInventory = createAsyncThunk(
     });
   }
 );
-
 export default sellProductSlice.reducer;
 export const { sellProduct } = sellProductSlice.actions;
