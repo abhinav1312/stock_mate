@@ -69,10 +69,10 @@ const Aside = () => {
           <NavLink to={'/hero'} end className="rounded-md py-2 px-6">
             <h3> Dashboard </h3>
           </NavLink>
-          <NavLink to={'/hero/product_update'}>               
+          <NavLink to={'/hero/product_update'} className="rounded-md py-2 px-6">               
             <h3> Add product </h3>
           </NavLink>
-          <NavLink to={'/hero/inventory'}> 
+          <NavLink to={'/hero/inventory'} className="rounded-md py-2 px-6"> 
             <h3> See inventory</h3>
           </NavLink>
         </nav>
