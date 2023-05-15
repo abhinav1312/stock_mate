@@ -18,17 +18,18 @@ const QRScanner = ({getProductInfo}) => {
     };
   return (
     <section>
-      <div>
-      <button onClick={()=>setQrScan(!qrScan)}>Scan QR code</button>
+      <div className='flex justify-center gap-16'>
+      <button className='outline' onClick={()=>setQrScan(true)}>Scan QR Code</button>
 			{
 				qrScan &&
 				<QrReader
+        className="absolute -top-12 w-96 h-96 left-56"
         delay={300}
         onError={handleError}
         onScan={handleScan}
-        style={{ width: '100%' }}
 				/>
 			}
+      <button className='outline' onClick={()=>setQrScan(false)}>Stop QR Scan</button>
     </div>
     </section>
   );

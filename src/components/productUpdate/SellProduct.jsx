@@ -9,10 +9,10 @@ const SellProduct = () => {
     return state.sellProduct.showToUser;
   })
   return (
-    <section>
+    <div>
       <QRScanner  />
       <Table currInventory={false} productList = {productList} />
-    </section>
+    </div>
   )
 }
 

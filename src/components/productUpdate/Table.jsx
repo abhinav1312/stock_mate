@@ -39,7 +39,7 @@ const Table = ({productList, currInventory}) => {
   }
   return (
     <section>
-      <h1 className="text-3xl mb-2">Recently Added Products</h1>
+      <h1 className="text-4xl pb-8 font-medium">Recently Added Products</h1>
       <div className="overflow-auto">
         <table className="w-full border-collapse py-4">
           <thead>
@@ -77,7 +77,7 @@ const Table = ({productList, currInventory}) => {
                         <>
                           <div className='flex gap-1 font-semibold items-center hover:bg-gray-100 rounded-full px-2 py-1 transition-all text-green-600'>
                           {DownloadIcon}
-                          <button
+                          <button className='!p-0'
                             onClick={() =>
                               downloadQRCode(name, brand, expiryDate)
                             }
@@ -89,7 +89,7 @@ const Table = ({productList, currInventory}) => {
                         <span className='block text-center'> OR </span>
                         <div className='flex gap-1 justify-center font-semibold items-center hover:bg-gray-100 rounded-full px-2 py-1 transition-all text-green-600'>
                           {PrintIcon}
-                          <button
+                          <button className='!p-0'
                             onClick={() => printQRCode(name, brand, expiryDate)}
                           >
                             Print
@@ -120,14 +120,14 @@ const Table = ({productList, currInventory}) => {
           currInventory ?
             <button
               onClick={addToDb}
-              className="px-6 py-4 bg-green-600 hover:bg-green-700 transition-all rounded-md text-white font-medium mt-4"
+              className="fill mt-4"
             >
               Add to database
             </button>
           :
           <button
               onClick={sellFromDb}
-              className="px-6 py-4 bg-green-600 hover:bg-green-700 transition-all rounded-md text-white font-medium mt-4"
+              className="fill mt-4"
             >
               Sell the products
             </button>

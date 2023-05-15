@@ -8,11 +8,30 @@ import { Data } from './Data'
 
 
 const PieChart = () => {
+  const options = {
+    plugins: {
+      responsive: true,
+      legend: {
+        position: 'right',
+        rtl : true,
+        labels: {
+          usePointStyle: true,
+          pointStyle: 'circle',
+          padding: 20,
+          font: {
+            size: 24,
+            style: "'Rubik', sans-serif"
+          }
+        }
+      }
+    },
+}
+
     const [data, setData] = useState({
-        labels: Data.map((data)=>data.year),
+        labels: Data.map((data)=>data.category),
         datasets: [{
-            label: "Users Gained",
-            data: Data.map((data)=>data.userGain)
+            label: "Sales Revenue",
+            data: Data.map((data)=>data.salesRevenue)
         }]
     })
     const handleClick = () =>{
@@ -20,8 +39,8 @@ const PieChart = () => {
     }
   return (
     <>
-      <div className='w-full md:w-[30rem]'>
-          <Pie data={data} options={{responsive: true}}/>
+      <div className='w-3/5'>
+          <Pie data={data} options={options}/>
           <button className="hidden" onClick={handleClick}></button>
       </div>
     </>

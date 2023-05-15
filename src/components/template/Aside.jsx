@@ -1,9 +1,10 @@
-import React, { useContext, useRef } from 'react';
+import React, { useRef } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import AuthContext from '../../context/auth/AuthContext';
+
 import { useDispatch } from 'react-redux';
 import BrandLogo from '../../assets/images/BrandLogo.png';
 import { logout } from '../../redux/slice/authSlice';
+import { GraphIcon, InventoryIcon, ProductUpdateIcon, SignoutIcon } from '../../assets/SVG';
 
 const Aside = () => {
   // const {handleSignOut} = useContext(AuthContext);
@@ -49,14 +50,14 @@ const Aside = () => {
          w-full
          translate-x-full
          md:translate-x-0
-         md:w-52 shrink-0
+         md:w-80 shrink-0
          fixed 
          h-full 
-         leading-loose 
-         font-semibold"
+         leading-loose flex flex-col justify-between 
+         font-medium"
         ref={asideRef}
       >
-          <div>
+          <div className='mx-auto'>
           <NavLink to="/">
             <img
               src={BrandLogo}
@@ -65,18 +66,22 @@ const Aside = () => {
               />
           </NavLink>
           </div>
-        <nav className='mt-16 flex flex-col gap-8 px-8'>
-          <NavLink to={'/hero'} end className="rounded-md py-2 px-6">
+        <nav className='mt-16 flex-1 flex flex-col gap-8 px-8'>
+          <NavLink to={'/hero'} end className="rounded-md py-2 px-6 flex gap-4 items-center hover:bg-hoverSecondary">
+            {GraphIcon}
             <h3> Dashboard </h3>
           </NavLink>
-          <NavLink to={'/hero/product_update'} className="rounded-md py-2 px-6">               
-            <h3> Add product </h3>
+          <NavLink to={'/hero/product_update'} className="rounded-md py-2 px-6 flex gap-4 items-center hover:bg-hoverSecondary"> 
+            {ProductUpdateIcon}              
+            <h3> Product updates </h3>
           </NavLink>
-          <NavLink to={'/hero/inventory'} className="rounded-md py-2 px-6"> 
-            <h3> See inventory</h3>
+          <NavLink to={'/hero/inventory'} className="rounded-md py-2 px-6 flex gap-4 items-center hover:bg-hoverSecondary"> 
+          {InventoryIcon}
+            <h3> Inventory </h3>
           </NavLink>
         </nav>
-        <button onClick={()=>dispatch(logout(navigate))} className="pr-20 hover:bg-green-700 w-full">
+        <button onClick={()=>dispatch(logout(navigate))} className="ml-8 rounded-md !py-2 !px-6 w-4/5 flex gap-4 items-center hover:bg-hoverSecondary">
+          {SignoutIcon}
           Sign out
         </button>
       </aside>

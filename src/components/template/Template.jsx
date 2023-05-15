@@ -10,9 +10,10 @@ const Template = (props) => {
   return (
     <>
       <Aside />
-      <div className='pr-8 pl-56 pb-8 pt-24'>
+      <div className='pl-72'>
         <Outlet />
       </div>
+      
       
     </>
   )

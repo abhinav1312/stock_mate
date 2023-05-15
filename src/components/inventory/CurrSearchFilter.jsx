@@ -121,8 +121,8 @@ const CurrSearchFilter = ({getProducts}) => {
   };
 
   return (
-    <section>
-      <div className="grid grid-cols-2 gap-4">
+    <section className='px-0'>
+      <div className="grid grid-cols-2 gap-4 bg-white p-6 rounded-xl shadow-md">
         <Category handleCatChange={handleCatChange} />
         <Brand handleBrandChange={handleBrandChange} />
 
@@ -169,7 +169,7 @@ const CurrSearchFilter = ({getProducts}) => {
         </div>
         <button
           onClick={()=>getProducts(selectedFilters)}
-          className="border col-span-2 p-2 bg-green-600 font-medium text-center"
+          className="fill col-span-2"
         >
           Filter
         </button>

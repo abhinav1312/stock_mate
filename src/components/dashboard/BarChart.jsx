@@ -1,24 +1,37 @@
 import React, { useState } from 'react'
 import { Bar } from 'react-chartjs-2'
-// import {Chart as ChartJs} from 'chart.js/auto'
 import { Data } from './Data'
 
 const BarChart = () => {
     const [data, setData] = useState({
-        labels: Data.map((data)=>data.year),
+        labels: Data.map((data)=>data.category),
         datasets: [{
-            label: "Users Gained",
-            data: Data.map((data)=>data.userGain)
+            label: "Quantity sold",
+            backgroundColor: "#6674CC",
+            barThickness: 52,
+            data: Data.map((data)=>data.quantity)
         }]
     })
-    const handleClick = () =>{
-      setData()
-    }
-    // setData()
+
+    const options = {
+      plugins: {
+        responsive: true,
+        legend: {
+          labels: {
+            font: {
+              size: 0,
+              style: "'Rubik', sans-serif",
+              weight:"500",
+            }
+          }
+        }
+      },
+  }
+
   return (
     <>
-    <div className='w-full md:h-[12.5rem] md:w-[25rem]'>
-      <Bar data={data} options={{responsive: true}}/>
+    <div className='w-full'>
+      <Bar data={data} options={options} />
     </div>
     </>
   )

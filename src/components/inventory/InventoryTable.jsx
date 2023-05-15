@@ -15,9 +15,9 @@ function formatDate(date) {
 
 const InventoryTable = ({productList}) => {
   return (
-    <section>
-      <h1 className="text-3xl mb-2">Products</h1>
-      <p className='text-gray-400'>The date is in dd/mm/yyyy format </p>
+    <section className='p-6 bg-white rounded-xl'>
+      <h1 className="text-4xl font-medium mb-2">Products</h1>
+      <p className='text-txtSec'>The date is in dd/mm/yyyy format </p>
       <div className="overflow-auto">
         <table className="w-full border-collapse py-4">
           <thead>

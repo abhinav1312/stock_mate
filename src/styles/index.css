@@ -10,7 +10,7 @@
 }
 
 body{
-    background-color: #f8f9fc;
+    @apply bg-body w-screen overflow-x-hidden;
 }
 
 button{
@@ -26,7 +26,21 @@ button.fill{
 }
 
 .header-navlink{
-    @apply rounded-lg p-2 hover:bg-gray-100;
+    @apply rounded-lg p-2 hover:bg-light;
+}
+
+a.anchor-outline{
+    @apply border border-secondary rounded-md py-6 px-12 text-xl font-medium hover:bg-secondary hover:text-white;
+}
+.anchor-outline.active{
+    @apply bg-primary text-white;
+}
+.header-navlink.active{
+    @apply text-txtPrim bg-transparent shadow-2xl;
+}
+
+a.active{
+    @apply bg-hoverSecondary text-txtActive;
 }
 
 .hero-section{
@@ -38,8 +52,8 @@ section{
     @apply py-8 px-16;
 }
 
-.active{
-    @apply bg-primary
+aside.active{
+    @apply bg-hoverSecondary text-txtActive;
 }
 
 .animate{
@@ -84,7 +98,11 @@ section{
 }
 
 td, th {
-    @apply border text-left p-2 whitespace-nowrap;
+    @apply border border-secondary text-left p-2 whitespace-nowrap;
+}
+
+th{
+    @apply font-medium bg-primary text-white;
 }
 
 .modalFormHeading{

@@ -17,14 +17,14 @@ const Header = (props) => {
   return (
     <>
       <header className="fixed w-full py-4 px-16 flex justify-between shadow-lg bg-body z-10">
-        <div>
-          <NavLink to="/">
-            <img
-              src={BrandLogo}
-              alt="brand logo"
-              className="h-12 object-contain rounded-full"
-              />
-          </NavLink>
+        <div className='py-2'>
+            <NavLink to="/">
+              <img
+                src={BrandLogo}
+                alt="brand logo"
+                className="h-12 object-contain rounded-full"
+                />
+            </NavLink>
           </div>
         <div className='flex gap-8 items-center text-lg font-medium'>
           <NavLink to="/" className="header-navlink">
