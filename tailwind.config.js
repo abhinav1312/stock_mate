@@ -9,7 +9,9 @@ module.exports = {
         light: "#E6F4F1",
         txtPrim: "rgb(1, 18, 41)",
         txtSec: "rgb(119, 124, 133)",
-        body: "#f8f9fc"
+        // body: "#f8f9fc"
+        body: "#f7f8fc"
+        
 
         // hoverBlue: "#0353a4",
         // black: "#001233",

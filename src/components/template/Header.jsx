@@ -16,7 +16,7 @@ const Header = (props) => {
 
   return (
     <>
-      <header className="fixed w-full py-4 px-16 flex justify-between shadow-lg bg-body">
+      <header className="fixed w-full py-4 px-16 flex justify-between shadow-lg bg-body z-10">
         <div>
           <NavLink to="/">
             <img
@@ -38,12 +38,12 @@ const Header = (props) => {
           </NavLink>
         {
           user ? 
-            <button className='header-navlink flex items-center gap-2 rounded-md border bg-primary text-white hover:bg-secondary' onClick={()=>dispatch(logout(navigate))}>
+            <button className='header-navlink fill flex items-center gap-2' onClick={()=>dispatch(logout(navigate))}>
               <span>{ProfileIcon}</span>
               Logout of {name}
             </button>
           :
-          <button className='header-navlink flex items-center gap-2 rounded-md border border-primary' onClick={()=>dispatch(login(navigate))}>
+          <button className='header-navlink btn-outline flex items-center gap-2' onClick={()=>dispatch(login(navigate))}>
             <span>{GoogleIcon}</span>
             Login / Signup
           </button>

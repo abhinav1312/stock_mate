@@ -2,6 +2,7 @@ import React, { useContext, useRef } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import AuthContext from '../../context/auth/AuthContext';
 import { useDispatch } from 'react-redux';
+import BrandLogo from '../../assets/images/BrandLogo.png';
 import { logout } from '../../redux/slice/authSlice';
 
 const Aside = () => {
@@ -44,7 +45,7 @@ const Aside = () => {
 
       <aside
         className="
-         text-white bg-green-500 pt-24
+         text-white bg-secondary py-8
          w-full
          translate-x-full
          md:translate-x-0
@@ -52,38 +53,32 @@ const Aside = () => {
          fixed 
          h-full 
          leading-loose 
-         font-semibold transition-all"
+         font-semibold"
         ref={asideRef}
       >
-        <nav>
-          <ul>
-            <li className="pl-8 hover:bg-green-700">
-              <NavLink to={'/hero'} end>
-                
-                <h2> Dashboard </h2>
-              </NavLink>
-            </li>
-            <br />
-            <li className="pl-8 hover:bg-green-700">
-              <NavLink to={'/hero/product_update'}>
-                
-                <h2> Add product </h2>
-              </NavLink>
-            </li>
-            <br />
-            <li className="pl-8 hover:bg-green-700">
-              <NavLink to={'/hero/inventory'}>
-                
-                <h2> See inventory</h2>
-              </NavLink>
-            </li>
-            <br />
-            <button onClick={()=>dispatch(logout(navigate))} className="pr-20 hover:bg-green-700 w-full">
-              Sign out
-            </button>
-            <br />
-          </ul>
+          <div>
+          <NavLink to="/">
+            <img
+              src={BrandLogo}
+              alt="brand logo"
+              className="h-12 object-contain rounded-full"
+              />
+          </NavLink>
+          </div>
+        <nav className='mt-16 flex flex-col gap-8 px-8'>
+          <NavLink to={'/hero'} end className="rounded-md py-2 px-6">
+            <h3> Dashboard </h3>
+          </NavLink>
+          <NavLink to={'/hero/product_update'}>               
+            <h3> Add product </h3>
+          </NavLink>
+          <NavLink to={'/hero/inventory'}> 
+            <h3> See inventory</h3>
+          </NavLink>
         </nav>
+        <button onClick={()=>dispatch(logout(navigate))} className="pr-20 hover:bg-green-700 w-full">
+          Sign out
+        </button>
       </aside>
     </>
   );

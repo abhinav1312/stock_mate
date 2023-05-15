@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&family=Poppins:ital,wght@0,300;0,400;0,600;1,200;1,300&family=Raleway:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&family=Poppins:ital,wght@0,300;0,400;0,600;1,200;1,300&family=Raleway:wght@300;400;500;600;700;800&family=Rubik:wght@300;400;500;600;700;800&display=swap');
 
 
 *{
@@ -14,7 +14,11 @@ body{
 }
 
 button{
-    @apply border !px-6 !py-4 border-primary rounded-md !font-medium;
+    @apply !px-6 !py-4 rounded-md !font-medium;
+}
+
+button.btn-outline{
+    @apply border border-primary hover:bg-slate-200 hover:shadow-md
 }
 
 button.fill{
@@ -31,11 +35,37 @@ button.fill{
 
 
 section{
-    @apply py-6;
+    @apply py-8 px-16;
 }
 
 .active{
-    color: #FF0096
+    @apply bg-primary
+}
+
+.animate{
+    animation: up-down 4s cubic-bezier(0.01, 0, 1, 1.01) infinite;
+}
+
+.animate1{
+    animation-delay: 1s;
+}
+.animate2{
+    animation-delay: 2s;
+}
+.animate1{
+    animation-delay: 1s;
+}
+
+@keyframes up-down {
+    0%{
+        transform: translateY(0%);
+    }
+    50%{
+        transform: translateY(-20%);
+    }
+    0%{
+        transform: translateY(0%);
+    }
 }
 
 .card-collection{
@@ -65,9 +95,6 @@ td, th {
     @apply p-2 w-full text-xl focus:border-blue-400 rounded-md focus:outline-none border;
 }
 
-.lap{
-    box-shadow: 0px 10px 20px 2px rgba(0, 0, 0, 0.25);
-}
 @tailwind base;
 
 @layer base {

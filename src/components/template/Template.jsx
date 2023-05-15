@@ -9,7 +9,6 @@ const Template = (props) => {
   }, [])
   return (
     <>
-      <Header2 />
       <Aside />
       <div className='pr-8 pl-56 pb-8 pt-24'>
         <Outlet />
