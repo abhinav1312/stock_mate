@@ -64,6 +64,9 @@ export const removeFromCurrInventory = createAsyncThunk(
     }
 
     const productList = state.sellProduct.removeFromCurrInventory;
+    if(productList.length <= 0){
+      alert("Please add the products and try again.")
+    }
     const docRef = doc(db, 'sold_inventory', user);
     await setDoc(docRef, {});
     productList.map(async (product) => {

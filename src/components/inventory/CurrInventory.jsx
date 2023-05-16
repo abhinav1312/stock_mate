@@ -16,8 +16,6 @@ const CurrInventory = () => {
   })
 
   const getProducts = async (selectedFilters) => {
-
-    console.log("getData called", selectedFilters);
     if(!userId){
       alert("Please login to continue..")
       navigate('/');
@@ -25,15 +23,11 @@ const CurrInventory = () => {
     }
     const collectionRef = collection(db, 'current_inventory', userId, "products");
     const initialQuery = (collectionRef);
-
     const dynamicQuery = selectedFilters.reduce((acc, whereCondition) => {
       const { field, operator, value } = whereCondition;
       return query(acc, where(field, operator, value));
     }, initialQuery);
-
     const data = await getDocs(dynamicQuery);
-    const productArray = data.docs.map(doc=>{return {id:doc.id, ...doc.data()}});
-    console.log(productArray)
     setProductList(data.docs.map(doc=>{return {id:doc.id, ...doc.data()}}))
   }
   return (

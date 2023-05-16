@@ -9,14 +9,15 @@ import PieChart from './PieChart';
 import LineChart from './LineChart';
 import LowSKU from './LowSKU';
 import TopSelling from './TopSelling';
+import DashboardFilter from './DashboardFilter';
 
 const Dashboard = () => {
   return (
     <>
-
+        
         <section>
           <h1 className='text-4xl pb-8 font-medium'>Dashboard</h1>
-
+          <DashboardFilter />
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             <Card img={ItemInInventory} content="total items" data="3243" />
             <Card img={SoldItem} content="items sold in duration" data="493" />

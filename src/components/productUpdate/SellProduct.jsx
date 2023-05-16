@@ -1,8 +1,7 @@
 import React from 'react'
-import QRScanner from './QRScanner'
 import { useSelector } from 'react-redux'
+import QRScanner from './QRScanner'
 import Table from './Table'
-import { sellProduct } from '../../redux/slice/sellProductSlice'
 
 const SellProduct = () => {
   const productList = useSelector((state)=>{

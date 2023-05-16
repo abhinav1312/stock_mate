@@ -7,7 +7,7 @@ import Table from './Table';
 import { useDispatch, useSelector } from 'react-redux';
 import {addProduct} from '../../redux/slice/addToDbSlice'
 import { lowerCase } from 'lodash';
-import QRCode from 'qrcode.react';
+
 
 const AddProduct = () => {
   const dispatch = useDispatch();

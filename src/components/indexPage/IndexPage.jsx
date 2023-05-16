@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { login, logout } from '../../redux/slice/authSlice.jsx';
+import { login } from '../../redux/slice/authSlice.jsx';
 import Typewriter from 'typewriter-effect';
 import QrCodeGif from '../../assets/images/qrScanGif.gif';
 import LaptopWork from '../../assets/images/laptopwork.png';
@@ -96,7 +96,6 @@ const IndexPage = () => {
                 {
                   FeatureInfo.map(feature=>{
                     const {id, heading, icon, body, borderColor, aos} = feature;
-                    console.log(borderColor)
                     return <FeatureCard key={id} heading={heading} icon={icon} body={body} borderColor={borderColor} aos={aos} />
                   })
                 }

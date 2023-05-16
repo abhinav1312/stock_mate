@@ -1,10 +1,17 @@
 import React from 'react'
+import QRScanner from './QRScanner'
+import { useSelector } from 'react-redux'
+import Table from './Table'
 
 const ViewDetail = () => {
+  const productList = useSelector((state)=>{
+    return state.sellProduct.showToUser;
+  })
   return (
-    <section>
-      <h1 className="text-5xl">View detail</h1>
-    </section>
+    <div>
+      <QRScanner  />
+      <Table currInventory={false} productList = {productList} />
+    </div>
   )
 }
 
