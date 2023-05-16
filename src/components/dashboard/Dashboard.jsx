@@ -25,7 +25,7 @@ const Dashboard = () => {
             <Card img={Revenue} content="revenue in duration" data="165873" />
           </div>
         </section>
-      <section className="grid grid-cols-1 gap-16">
+      <section className="grid grid-cols-1 gap-8">
         <div className="p-8 rounded-md bg-white flex flex-col items-center justify-center">
           <h3 className='text-2xl font-medium'>Categorical sales revenue</h3>
           <PieChart />

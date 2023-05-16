@@ -10,7 +10,7 @@ const SellProduct = () => {
   return (
     <div>
       <QRScanner  />
-      <Table currInventory={false} productList = {productList} />
+      <Table currInventory={false} productList = {productList} heading="Product Left To Sell" />
     </div>
   )
 }

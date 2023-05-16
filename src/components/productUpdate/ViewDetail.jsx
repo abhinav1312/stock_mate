@@ -10,7 +10,7 @@ const ViewDetail = () => {
   return (
     <div>
       <QRScanner  />
-      <Table currInventory={false} productList = {productList} />
+      <Table currInventory={false} productList = {productList} heading="Product detail"/>
     </div>
   )
 }

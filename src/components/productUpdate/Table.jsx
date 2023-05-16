@@ -7,7 +7,7 @@ import { DownloadIcon, PrintIcon } from '../../assets/SVG';
 import { useNavigate } from 'react-router-dom';
 import { removeFromCurrInventory } from '../../redux/slice/sellProductSlice';
 
-const Table = ({productList, currInventory}) => {
+const Table = ({productList, currInventory, heading}) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -39,7 +39,7 @@ const Table = ({productList, currInventory}) => {
   }
   return (
     <section>
-      <h1 className="text-4xl pb-8 font-medium">Recently Added Products</h1>
+      <h1 className="text-4xl pb-2 font-medium">{heading}</h1>
       <div className="overflow-auto">
         <table className="w-full border-collapse py-4">
           <thead>

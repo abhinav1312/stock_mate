@@ -99,7 +99,7 @@ const AddProduct = () => {
       <BarcodeScanner getProductInfo={getProductInfo} />
       {productInfoModal && <ProductInfoModal productInfoSubmit = {productInfoSubmit} handleContentChange={handleContentChange} name={productDetail.name} brand={productDetail.brand} category={productDetail.category} /> }
       {inventoryModal && <InventoryModal inventoryInfoSubmit = {inventoryInfoSubmit} handleContentChange={handleContentChange} name={productDetail.name} brand={productDetail.brand} category={productDetail.category} expiryDate={productDetail.expiryDate} quantity={productDetail.quantity} />}
-      <Table currInventory={true} productList={productList}  />
+      <Table currInventory={true} productList={productList} heading="Product Left To Add" />
     </div>
     </>
   );
